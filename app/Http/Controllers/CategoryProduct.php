@@ -71,7 +71,13 @@ class CategoryProduct extends Controller
         DB::table('tbl_category_product')->where('category_id',$category_product_id)->update($data);
         Session::put('message','Cập nhật danh mục sản phẩm thành công');
         return Redirect::to('/all-category-product');
+    }
 
+    //Xoá danh mục sản phẩm
+    public function delete_category_product($category_product_id){
+        DB::table('tbl_category_product')->where('category_id',$category_product_id)->delete();
+        Session::put('message','Xoá danh mục sản phẩm thành công');
+        return Redirect::to('/all-category-product');
     }
 
 }
