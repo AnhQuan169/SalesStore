@@ -7,6 +7,14 @@
       Danh sách danh mục sản phẩm
     </div>
     <div class="row w3-res-tb">
+      <?php 
+          $message = Session::get('message');
+          if($message){
+              echo '<span class="text-alert">',$message,'</span>';
+              Session::put('message', null);
+          }
+
+      ?>
       <div class="col-sm-5 m-b-xs">
         <select class="input-sm form-control w-sm inline v-middle">
           <option value="0">Bulk action</option>
@@ -50,17 +58,24 @@
               <td><span class="text-ellipsis">
                 <?php
                   if($cate_pro->category_status===0){
-                    echo 'Ẩn';
+                ?>
+                  <a href="{{URL::to('/active-category-product/'.$cate_pro->category_id)}}"><span class="fa-thumb-styling fa fa-thumbs-down"></span></a>
+                <?php  
                   }else{
-                    echo 'Hiển thị';
+                ?>
+                  <a href="{{URL::to('/unactive-category-product/'.$cate_pro->category_id)}}"><span class="fa-thumb-styling fa fa-thumbs-up"></span></a>
+                  
+                <?php
                   }
                 ?>
                   </span>
               </td>
               <td><span class="text-ellipsis">{{$cate_pro->created_at}}</span></td>
               <td>
-                <a href="" class="active" ui-toggle-class="">
+                <a href="{{URL::to('/edit-category-product/'.$cate_pro->category_id)}}" class="active styling-edit" ui-toggle-class="">
                   <i class="fa fa-pencil-square-o text-success text-active"></i>
+                </a>
+                <a href="{{URL::to('/delete-category-product/'.$cate_pro->category_id)}}" class="active styling-edit" ui-toggle-class="">
                   <i class="fa fa-times text-danger text"></i>
                 </a>
                   

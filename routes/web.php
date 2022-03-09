@@ -28,8 +28,16 @@ Route::get('/dashboard', [AdminController::class, 'show_dashboard']);
 Route::post('/admin-dashboard', [AdminController::class, 'dashboard']);
 Route::get('/logout', [AdminController::class, 'logout']);
 
-//Quản lí danh mục sẳn phẩm
+//  ------------ Quản lí danh mục sẳn phẩm
+// Mở cửa sổ thêm danh mục sản phẩm mới
 Route::get('/add-category-product', [CategoryProduct::class, 'add_category_product']);
 Route::get('/all-category-product', [CategoryProduct::class, 'all_category_product']);
 //  Lưu danh mục sản phẩm được thêm vào
 Route::post('/save-category-product', [CategoryProduct::class, 'save_category_product']);
+// Hiển thị/Ẩn danh mục sản phẩm
+Route::get('/active-category-product/{category_product_id}', [CategoryProduct::class, 'active_category_product']);
+Route::get('/unactive-category-product/{category_product_id}', [CategoryProduct::class, 'unactive_category_product']);
+// Mở cửa sổ cập nhật danh mục sản phẩm
+Route::get('/edit-category-product/{category_product_id}', [CategoryProduct::class, 'edit_category_product']);
+// Lưu danh mục sản phẩm được chỉnh sửa
+Route::post('/update-category-product/{category_product_id}', [CategoryProduct::class, 'update_category_product']);

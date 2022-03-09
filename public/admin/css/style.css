@@ -3154,3 +3154,15 @@ span.text-alert{
     text-align: center;
     margin-top: 8px;
 }
+
+span.fa-thumb-styling.fa.fa-thumbs-down{
+    color:red;
+    font-size: 25px;
+}
+span.fa-thumb-styling.fa.fa-thumbs-up{
+    color: green;
+    font-size: 25px;
+}
+a.styling-edit{
+    font-size: 25px;
+}
