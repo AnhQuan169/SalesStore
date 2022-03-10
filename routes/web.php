@@ -18,12 +18,16 @@ use App\Http\Controllers\ProductController;
 |
 */
 
-// Client
+//=======================Client===========================
 Route::get('/', [HomeController::class, 'index']);
 Route::get('/trang-chu', [HomeController::class, 'index']);
+// Danh mục sản phẩm trang chủ
+Route::get('/category-product/{category_id}', [CategoryProduct::class, 'show_Category_Home']);
+// Thương hiệu sản phẩm trang chủ
+Route::get('/brand-product/{brand_id}', [BrandController::class, 'show_Brand_Home']);
 
 
-// Admin
+// =======================Admin=========================
 Route::get('/admin', [AdminController::class, 'index']);
 Route::get('/dashboard', [AdminController::class, 'show_dashboard']);
 Route::post('/admin-dashboard', [AdminController::class, 'dashboard']);

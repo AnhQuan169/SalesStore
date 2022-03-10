@@ -2,8 +2,11 @@
 @section('content')
 
 <div class="features_items"><!--features_items-->
-    <h2 class="title text-center">Sản phẩm mới nhất</h2>
-    @foreach ($all_product as $key => $pro)
+    @foreach ($cate_name as $item )
+        <h2 class="title text-center">{{$item->category_name}}</h2>
+    @endforeach
+    
+    @foreach ($category_by_id as $key => $pro)
         <div class="col-sm-4">
             <div class="product-image-wrapper">
                 <div class="single-products">
@@ -13,13 +16,6 @@
                             <p>{{$pro->name}}</p>
                             <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</a>
                         </div>
-                        {{-- <div class="product-overlay">
-                            <div class="overlay-content">
-                                <h2>$ {{$pro->price}}</h2>
-                                <p>$ {{$pro->name}}</p>
-                                <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
-                            </div>
-                        </div> --}}
                 </div>
                 <div class="choose">
                     <ul class="nav nav-pills nav-justified">
