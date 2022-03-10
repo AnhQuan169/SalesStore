@@ -5,7 +5,7 @@ use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CategoryProduct;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
-
+use App\Http\Controllers\ProductController;
 
 /*
 |--------------------------------------------------------------------------
@@ -61,3 +61,19 @@ Route::get('/edit-brand/{brand_id}', [BrandController::class, 'edit_brand']);
 Route::post('/update-brand/{brand_id}', [BrandController::class, 'update_brand']);
 // Xoá thương hiệu sản phẩm được chọn
 Route::get('/delete-brand/{brand_id}', [BrandController::class, 'delete_brand']);
+
+//  ------------Quản lí sản phẩm
+// Mở cửa sổ thêm sản phẩm mới
+Route::get('/add-product', [ProductController::class, 'add_product']);
+Route::get('/all-product', [ProductController::class, 'all_product']);
+//  Lưu thương hiệu sản phẩm được thêm vào
+Route::post('/save-product', [ProductController::class, 'save_product']);
+// Hiển thị/Ẩn thương hiệu sản phẩm
+Route::get('/active-product/{product_id}', [ProductController::class, 'active_product']);
+Route::get('/unactive-product/{product_id}', [ProductController::class, 'unactive_product']);
+// Mở cửa sổ cập nhật thương hiệu sản phẩm
+Route::get('/edit-product/{product_id}', [ProductController::class, 'edit_product']);
+// Lưu thương hiệu sản phẩm được chỉnh sửa
+Route::post('/update-product/{product_id}', [ProductController::class, 'update_product']);
+// Xoá thương hiệu sản phẩm được chọn
+Route::get('/delete-product/{product_id}', [ProductController::class, 'delete_product']);
