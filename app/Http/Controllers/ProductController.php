@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Session;
 // Thư viện cho phép xử lí thông tin dữ liệu khi thành công hoặc thất bại với lệnh
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Redis;
+use SebastianBergmann\Environment\Console;
 use Yoeunes\Toastr;
 Session_start();
 
@@ -151,5 +152,30 @@ class ProductController extends Controller
         return Redirect::to('/all-product');
     }
 
+    //===================Client=====================
+    public function detail_product($product_id){
+        $cate_pro = DB::table('tbl_category_product')->where('category_status','1')->orderBy('category_id','desc')->get();
+        $brand_pro = DB::table('tbl_brand')->where('brand_status','1')->orderBy('brand_id','desc')->get();
+
+        $details_product = DB::table('tbl_product')
+        ->join('tbl_category_product','tbl_category_product.category_id','=','tbl_product.category_id')
+        ->join('tbl_brand','tbl_brand.brand_id','=','tbl_product.brand_id')
+        ->where('tbl_product.id',$product_id)->get();
+        
+        foreach($details_product as $item){
+            $cate_id = $item->category_id;
+        }
+
+        $related_product = DB::table('tbl_product')
+        ->join('tbl_category_product','tbl_category_product.category_id','=','tbl_product.category_id')
+        ->join('tbl_brand','tbl_brand.brand_id','=','tbl_product.brand_id')
+        ->where('tbl_category_product.category_id',$cate_id)
+        ->whereNotIn('tbl_product.id',[$product_id])->get();
+        
+
+
+        return view('pages.products.show_detail')->with('category',$cate_pro)->with('brand',$brand_pro)
+        ->with('details_product',$details_product)->with('related_product',$related_product);
+    }
 
 }

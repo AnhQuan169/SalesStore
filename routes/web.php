@@ -25,6 +25,8 @@ Route::get('/trang-chu', [HomeController::class, 'index']);
 Route::get('/category-product/{category_id}', [CategoryProduct::class, 'show_Category_Home']);
 // Thương hiệu sản phẩm trang chủ
 Route::get('/brand-product/{brand_id}', [BrandController::class, 'show_Brand_Home']);
+// Chi tiết sản phẩm
+Route::get('/detail-product/{product_id}', [ProductController::class, 'detail_product']);
 
 
 // =======================Admin=========================
