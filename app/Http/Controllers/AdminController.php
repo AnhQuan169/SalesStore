@@ -14,12 +14,28 @@ Session_start();
 
 class AdminController extends Controller
 {
+
+    // Bảo mật Login
+    public function AuthLogin(){
+        $admin_id = Session::get('admin_id');
+        if($admin_id){
+            return Redirect::to('dashboard');
+        }else{
+            return Redirect::to('admin')->send();
+        }
+    }
     //
     public function index(){
-        return view('admin_login');
+        $admin_id = Session::get('admin_id');
+        if($admin_id){
+            return Redirect::to('dashboard');
+        }else{
+            return view('admin_login');
+        }    
     }
 
     public function show_dashboard(){
+        $this->AuthLogin();
         return view('admin.dashboard');
     }
 
@@ -42,6 +58,7 @@ class AdminController extends Controller
     }
 
     public function logout(){
+        $this->AuthLogin();
         Session::put('admin_name',null);
         Session::put('admin_id',null);
         return Redirect::to('/admin');

@@ -14,8 +14,19 @@ Session_start();
 
 class ProductController extends Controller
 {
+    // Bảo mật Login
+    public function AuthLogin(){
+        $admin_id = Session::get('admin_id');
+        if($admin_id){
+            return Redirect::to('dashboard');
+        }else{
+            return Redirect::to('admin')->send();
+        }
+    }
+    
     // Mở cửa sổ thêm sản phẩm mới
     public function add_product(){
+        $this->AuthLogin();
         // Lấy dữ liệu từ 2 table danh mục, thương hiệu sản phẩm và sắp xếp theo id với orderBy
         $cate_product = DB::table('tbl_category_product')->orderBy('category_id','desc')->get();       
         $brand_product = DB::table('tbl_brand')->orderBy('brand_id','desc')->get();
@@ -26,6 +37,7 @@ class ProductController extends Controller
 
     // Hiển thị trang danh sách sản phẩm
     public function all_product(){
+        $this->AuthLogin();
         $all_product = DB::table('tbl_product')
         ->join('tbl_category_product','tbl_category_product.category_id','=','tbl_product.category_id')
         ->join('tbl_brand','tbl_brand.brand_id','=','tbl_product.brand_id')
@@ -36,6 +48,7 @@ class ProductController extends Controller
 
     // Hiển thị  sản phẩm được chọn
     public function active_product($product_id){
+        $this->AuthLogin();
         DB::table('tbl_product')->where('id',$product_id)->update(['status'=>1]);
         Session::put('message','Kích hoạt trạng thái sản phẩm thành công');
         return Redirect::to('/all-product');
@@ -43,6 +56,7 @@ class ProductController extends Controller
 
     // Ẩn sản phẩm được chọn
     public function unactive_product($product_id){
+        $this->AuthLogin();
         DB::table('tbl_product')->where('id',$product_id)->update(['status'=>0]);
         Session::put('message','Không kích hoạt trạng thái sản phẩm thành công');
         return Redirect::to('/all-product');
@@ -50,6 +64,7 @@ class ProductController extends Controller
 
     //Lưu thông tin sản phẩm mới đã thêm
     public function save_product(Request $request){
+        $this->AuthLogin();
         $data = array();
 
         $data['name'] = $request->product_name;
@@ -85,6 +100,7 @@ class ProductController extends Controller
 
     // Hiển thị cửa số chỉnh sửa sản phẩm được chọn
     public function edit_product($product_id){
+        $this->AuthLogin();
         $cate_product = DB::table('tbl_category_product')->orderBy('category_id','desc')->get();       
         $brand_product = DB::table('tbl_brand')->orderBy('brand_id','desc')->get();
 
@@ -96,6 +112,7 @@ class ProductController extends Controller
 
     //Cập nhật thông tin sản phẩm được chọn
     public function update_product(Request $request, $product_id){
+        $this->AuthLogin();
         $data = array();
         // Cú pháp: $data['tên của trường bên trong mysql] = $request->name của input lấy được từ code giao diện
         $data['name'] = $request->product_name;
@@ -128,6 +145,7 @@ class ProductController extends Controller
 
     // Xoá sản phẩm 
     public function delete_product($product_id){
+        $this->AuthLogin();
         DB::table('tbl_product')->where('id',$product_id)->delete();
         Session::put('message','Xoá sản phẩm thành công');
         return Redirect::to('/all-product');
