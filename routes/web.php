@@ -32,7 +32,9 @@ Route::get('/detail-product/{product_id}', [ProductController::class, 'detail_pr
 Route::post('/save-cart', [CartController::class, 'save_cart']);
 Route::post('/add-cart-ajax', [CartController::class, 'add_cart_ajax']);
 Route::get('/show-cart', [CartController::class, 'show_cart']);
-// Route::post('/update-cart', [CartController::class, 'update_cart']);
+Route::post('/update-cart', [CartController::class, 'update_cart']);
+Route::get('/delete-product-ajax/{session_id}', [CartController::class, 'delete_product_ajax']);
+Route::get('/delete-all-product', [CartController::class, 'delete_all_product']);
 
 
 // =======================Admin=========================

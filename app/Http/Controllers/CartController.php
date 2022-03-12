@@ -13,7 +13,8 @@ Session_start();
 
 class CartController extends Controller
 {
-    //
+    // Thêm sản phẩm vào giỏ hàng không dùng Ajax
+    // Chưa xử lí
     public function save_cart(Request $request){
         $cate_pro = DB::table('tbl_category_product')->where('category_status','1')->orderBy('category_id','desc')->get();
         $brand_pro = DB::table('tbl_brand')->where('brand_status','1')->orderBy('brand_id','desc')->get();
@@ -85,7 +86,58 @@ class CartController extends Controller
             ->with('url_canonical',$url_canonical);
     }
 
-    // public function update_cart(){
+    // Cập nhật số lượng sản phẩm trong giỏ hàng
+    public function update_cart(Request $request){
+        $data = $request->all();
+        $cart = Session::get('cart');
+        if($cart){
+            // $key là session_id
+            // $qty là số lượng của các sản phẩm trong giỏ hàng
+            foreach($data['cart_qty'] as $key => $qty){
+                foreach($cart as $session => $val){
+                    if($val['session_id']==$key){
+                        $cart[$session]['product_qty']=$qty;
+                    }
+                }
+            }
+            Session::put('cart',$cart);
+            return Redirect()->back()->with('message','Cập nhật sản phẩm thành công');
+        }else{
+            return Redirect()->back()->with('message','Cập nhật sản phẩm thất bại');
+        }
+    }
 
-    // }
+    // xoá sản phẩm bên trong giỏ hàng
+    public function delete_product_ajax($session_id){
+        // Lấy tất cả giá trị từ biến cart trong Session
+        $cart = Session::get('cart');
+        // Nếu tồn tại giá trị bên trong biến cart của Session
+        if($cart){
+            // Dùng hàm foreach để lướt qua toàn bộ các sản phẩm bên trong cart
+            foreach($cart as $key => $val){
+                // Nếu session_id của 1 phần tử nào đó tồn tại bên trong cart = session_id của sản phẩm ta chọn để xoá 
+                if($val['session_id']==$session_id){
+                    // Nó sẽ loại bỏ phần tử tại vị trí với session_id được chọn
+                    unset($cart[$key]);
+                }
+            }
+            Session::put('cart',$cart);
+            return Redirect()->back()->with('message','Xoá sản phẩm thành công');
+        }else{
+            return Redirect()->back()->with('message','Xoá sản phẩm thất bại');
+        }
+    }
+
+    // Xoá tất cả sản phẩm trong giỏ hàng
+    public function delete_all_product(){
+        $cart = Session::get('cart');
+        if($cart){
+            // Xoá hết tất cả các Session
+            // Session::destroy();
+            Session::forget('cart');
+            return Redirect()->back()->with('message','Xoá sản phẩm thành công');
+        }else{
+            return Redirect()->back()->with('message','Xoá sản phẩm thất bại');
+        }
+    }
 }

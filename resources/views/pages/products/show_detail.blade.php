@@ -1,6 +1,6 @@
 @extends('layout')
 @section('content')
-@foreach ($details_product as $item )
+@foreach ($details_product as $key => $item )
     <div class="product-details"><!--product-details-->
         <div class="col-sm-5">
             <div class="view-product">
