@@ -13,7 +13,9 @@
     <link href="{{asset('public/client/css/animate.css')}}" rel="stylesheet">
 	<link href="{{asset('public/client/css/main.css')}}" rel="stylesheet">
 	<link href="{{asset('public/client/css/responsive.css')}}" rel="stylesheet">
-    <!--[if lt IE 9]>
+	<link href="{{asset('public/client/css/sweetalert.css')}}" rel="stylesheet">
+
+	<!--[if lt IE 9]>
     <script src="js/html5shiv.js"></script>
     <script src="js/respond.min.js"></script>
     <![endif]-->       
@@ -89,7 +91,7 @@
 								<li><a href="#"><i class="fa fa-user"></i> Account</a></li>
 								<li><a href="#"><i class="fa fa-star"></i> Wishlist</a></li>
 								<li><a href="checkout.html"><i class="fa fa-crosshairs"></i> Checkout</a></li>
-								<li><a href="cart.html"><i class="fa fa-shopping-cart"></i> Cart</a></li>
+								<li><a href="{{URL::to('/show-cart')}}"><i class="fa fa-shopping-cart"></i> Cart</a></li>
 								<li><a href="login.html"><i class="fa fa-lock"></i> Login</a></li>
 							</ul>
 						</div>
@@ -118,7 +120,7 @@
                                         <li><a href="shop.html">Products</a></li>
 										<li><a href="product-details.html">Product Details</a></li> 
 										<li><a href="checkout.html">Checkout</a></li> 
-										<li><a href="cart.html">Cart</a></li> 
+										<li><a href="{{URL::to('/show-cart')}}">Cart</a></li> 
 										<li><a href="login.html">Login</a></li> 
                                     </ul>
                                 </li> 
@@ -128,7 +130,7 @@
 										<li><a href="blog-single.html">Blog Single</a></li>
                                     </ul>
                                 </li> 
-								<li><a href="404.html">Giỏ hàng</a></li>
+								<li><a href="{{URL::to('/show-cart')}}">Giỏ hàng</a></li>
 								<li><a href="contact-us.html">Liên hệ</a></li>
 							</ul>
 						</div>
@@ -417,5 +419,47 @@
 	<script src="{{asset('public/client/js/price-range.js')}}"></script>
     <script src="{{asset('public/client/js/jquery.prettyPhoto.js')}}"></script>
     <script src="{{asset('public/client/js/main.js')}}"></script>
+	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+	<script src="{{asset('public/client/js/sweetalert.js')}}"></script>
+	
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$('.add-to-cart').click(function(){
+				var id = $(this).data('id');
+				
+				var cart_product_id = $('.cart_product_id_'+id).val();
+				var cart_product_name = $('.cart_product_name_'+id).val();
+				var cart_product_image = $('.cart_product_image_'+id).val();
+				var cart_product_price = $('.cart_product_price_'+id).val();
+				var cart_product_qty = $('.cart_product_qty_'+id).val();
+				var _token = $('input[name="_token"]').val();
+				
+				$.ajax({
+					url: '{{url('/add-cart-ajax')}}',
+					method: "POST",
+					data:{cart_product_id:cart_product_id, 
+						cart_product_name:cart_product_name, 
+						cart_product_image:cart_product_image, 
+						cart_product_price:cart_product_price, 
+						cart_product_qty:cart_product_qty,
+						_token:_token},
+					success:function(data){
+						swal({
+							title: "Đã thêm sản phẩm vào giỏ hàng",
+							text: "Bạn có thể mua hàng tiếp hoặc tới giỏ hàng để tiến hành thanh toán",
+							showCancelButton: true,
+							cancelButtonText: "Xem tiếp",
+							confirmButtonClass: "btn-success",
+							confirmButtonText: "Đi đến giỏ hàng",
+							closeOnConfirm: false
+						},
+						function() {
+							window.location.href = "{{url('/show-cart')}}";
+						});
+					}
+				});
+			});
+		});
+	</script>
 </body>
 </html>

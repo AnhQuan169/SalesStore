@@ -21,7 +21,6 @@ class HomeController extends Controller
 
         $all_product = DB::table('tbl_product')->where('status','1')->orderBy('id','desc')->limit(3)->get();
         
-
         return view('pages.home')->with('category',$cate_pro)->with('brand',$brand_pro)->with('all_product',$all_product);
     }
 }

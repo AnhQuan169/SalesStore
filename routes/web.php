@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\BrandController;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryProduct;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
@@ -27,6 +28,11 @@ Route::get('/category-product/{category_id}', [CategoryProduct::class, 'show_Cat
 Route::get('/brand-product/{brand_id}', [BrandController::class, 'show_Brand_Home']);
 // Chi tiết sản phẩm
 Route::get('/detail-product/{product_id}', [ProductController::class, 'detail_product']);
+//-----------------Giỏ hàng---------------
+Route::post('/save-cart', [CartController::class, 'save_cart']);
+Route::post('/add-cart-ajax', [CartController::class, 'add_cart_ajax']);
+Route::get('/show-cart', [CartController::class, 'show_cart']);
+// Route::post('/update-cart', [CartController::class, 'update_cart']);
 
 
 // =======================Admin=========================

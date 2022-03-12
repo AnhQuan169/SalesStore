@@ -34,15 +34,19 @@
                 <h2>{{$item->name}}</h2>
                 <p>Mã ID: {{$item->id}}</p>
                 <img src="{{URL::to('public/client/images/product-details/rating.png')}}" alt="" />
-                <span>
-                    <span>{{number_format($item->price,0,',','.')}} VND</span>
-                    <label>Quantity:</label>
-                    <input type="number" min="1" value="3" />
-                    <button type="button" class="btn btn-fefault cart">
-                        <i class="fa fa-shopping-cart"></i>
-                        Thêm vào giỏ hàng
-                    </button>
-                </span>
+                <form action="{{URL::to('/save-cart')}}" method="POST">
+                    {{ csrf_field() }}
+                    <span>
+                        <span>{{number_format($item->price,0,',','.')}} VND</span>
+                        <label>Quantity:</label>
+                        <input name="qty" type="number" min="1" value="1" />
+                        <input name="product_id_hidden" type="hidden" value="{{$item->id}}" />
+                        <button type="submit" class="btn btn-fefault cart">
+                            <i class="fa fa-shopping-cart"></i>
+                            Thêm vào giỏ hàng
+                        </button>
+                    </span>
+                </form>
                 <p><b>Tình trạng:</b> Còn hàng</p>
                 <p><b>Điều kiện:</b> Mới 100%</p>
                 <p><b>Danh mục:</b> {{$item->category_name}}</p>
