@@ -105,8 +105,11 @@
                             <li>Phí vận chuyển <span></span></li>
                             <li>Thành tiền <span></span></li>
                         </ul>
-                        <a class="btn btn-default check_out" href="{{URL::to('/login-checkout')}}">Thanh toán</a>
-                        {{-- <a class="btn btn-default check_out" href="">Tính mã giảm giá</a> --}}
+                        @if(Session::get('customer_id'))
+                            <a class="btn btn-default check_out" href="{{URL::to('/checkout')}}">Thanh toán</a>
+                        @else
+                            <a class="btn btn-default check_out" href="{{URL::to('/login-checkout')}}">Thanh toán</a>
+                        @endif
                     </div>
                 </div>
             </div>

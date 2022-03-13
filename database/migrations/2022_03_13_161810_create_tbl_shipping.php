@@ -15,11 +15,12 @@ class CreateTblShipping extends Migration
     {
         Schema::create('tbl_shipping', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('customer_id');
+            // $table->integer('customer_id');
             $table->string('name');
             $table->string('address');
             $table->string('phone');
             $table->string('email');
+            $table->string('note');
             $table->timestamps();
         });
     }

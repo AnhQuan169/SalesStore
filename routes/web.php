@@ -42,6 +42,8 @@ Route::get('/login-checkout', [CheckoutController::class, 'login_checkout']);
 Route::post('/add-customer', [CheckoutController::class, 'add_customer']);
 // Trang thanh toán
 Route::get('/checkout', [CheckoutController::class, 'checkout']);
+// Trang thanh toán
+Route::post('/save-checkout-customer', [CheckoutController::class, 'save_checkout_customer']);
 
 
 

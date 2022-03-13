@@ -16,7 +16,7 @@
         <div class="shopper-informations">
             <div class="row">
                 
-                <div class="col-sm-5 clearfix">
+                <div class="col-sm-10 clearfix">
                     <div class="bill-to">
                         <p>Điền thông tin gửi hàng</p>
                         <div class="form-one">
@@ -26,18 +26,14 @@
                                 <input type="text" name="name" placeholder="Họ và tên *">
                                 <input type="text" name="address" placeholder="Địa chỉ *">
                                 <input type="number" name="phone" placeholder="Số điện thoại *">
+                                <textarea name="note"  placeholder="Ghi chú đơn hàng của bạn" rows="5" ></textarea>		
                                 <input name="send_order" type="submit" class="btn btn-primary btn-sm" value="Gửi" />
                             </form>
                         </div>
                         
                     </div>
                 </div>
-                <div class="col-sm-4">
-                    <div class="order-message">
-                        <p>Ghi chú đơn hàng</p>
-                        <textarea name="message"  placeholder="Ghi chú đơn hàng của bạn" rows="16"></textarea>
-                    </div>	
-                </div>					
+                			
             </div>
         </div>
         <div class="review-payment">
