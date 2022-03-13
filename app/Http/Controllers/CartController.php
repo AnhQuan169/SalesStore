@@ -29,7 +29,6 @@ class CartController extends Controller
 
     public function add_cart_ajax(Request $request){
         $data = $request->all();
-        print_r($data);
         //Mỗi sản phẩm thêm vào giỏ hàng sẽ tạo ra 1 session_id
         $session_id = substr(md5(microtime()),rand(0,26),5);
         $cart = Session::get('cart');
@@ -39,8 +38,19 @@ class CartController extends Controller
             foreach($cart as $key => $val){
                 if($val['product_id']==$data['cart_product_id']){
                     $is_avaiable++;
+                    $cart[$key] = array(
+                        'session_id'=> $session_id,
+                        'product_id' =>$data['cart_product_id'],
+                        'product_name' => $data['cart_product_name'],
+                        'product_image' =>$data['cart_product_image'],
+                        'product_qty' =>$val['product_qty']+$data['cart_product_qty'],
+                        'product_price' =>$data['cart_product_price']
+                    );
+                    Session::put('cart',$cart);
+                    
                 }
             }
+            Session::put('cart',$cart);
             // Nếu sản phẩm mới được thêm vào không trùng với sản phẩm nào đã tồn tại bên trong giỏ hàng
             if($is_avaiable==0){
                 $cart[] = array(
