@@ -79,7 +79,7 @@
                             </tr>
                         @else
                             <tr>
-                                <td colspan="5" style="text-align: center">
+                                <td colspan="5" style="text-align: center;padding-top: 10px;">
                                     @php
                                         echo "Giỏ hàng trống";
                                     @endphp
@@ -103,10 +103,10 @@
                                 @endif</span></li>
                             <li>Thuế <span></span></li>
                             <li>Phí vận chuyển <span></span></li>
-                            <li>Tiền sau giảm <span></span></li>
+                            <li>Thành tiền <span></span></li>
                         </ul>
-                        <a class="btn btn-default check_out" href="">Thanh toán</a>
-                        <a class="btn btn-default check_out" href="">Tính mã giảm giá</a>
+                        {{-- <a class="btn btn-default check_out" href="{{URL::to('/login-checkout')}}">Thanh toán</a> --}}
+                        {{-- <a class="btn btn-default check_out" href="">Tính mã giảm giá</a> --}}
                     </div>
                 </div>
             </div>

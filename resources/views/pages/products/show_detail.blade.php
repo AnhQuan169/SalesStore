@@ -1,10 +1,10 @@
 @extends('layout')
 @section('content')
-@foreach ($details_product as $key => $item )
+@foreach ($details_product as $key => $pro )
     <div class="product-details"><!--product-details-->
         <div class="col-sm-5">
             <div class="view-product">
-                <img src="{{URL::to('public/uploads/products/'.$item->image)}}" alt="" />
+                <img src="{{URL::to('public/uploads/products/'.$pro->image)}}" alt="" />
                 <h3>ZOOM</h3>
             </div>
             <div id="similar-product" class="carousel slide" data-ride="carousel">
@@ -12,9 +12,9 @@
                 <!-- Wrapper for slides -->
                     <div class="carousel-inner">
                         <div class="item active">
-                        <a href=""><img src="{{URL::to('public/uploads/products/'.$item->image)}}" alt="" width="90px"></a>
-                        <a href=""><img src="{{URL::to('public/uploads/products/'.$item->image)}}" alt="" width="90px"></a>
-                        <a href=""><img src="{{URL::to('public/uploads/products/'.$item->image)}}" alt="" width="90px"></a>
+                        <a href=""><img src="{{URL::to('public/uploads/products/'.$pro->image)}}" alt="" width="90px"></a>
+                        <a href=""><img src="{{URL::to('public/uploads/products/'.$pro->image)}}" alt="" width="90px"></a>
+                        <a href=""><img src="{{URL::to('public/uploads/products/'.$pro->image)}}" alt="" width="90px"></a>
                         </div>
                     </div>
 
@@ -31,26 +31,39 @@
         <div class="col-sm-7">
             <div class="product-information"><!--/product-information-->
                 <img src="{{URL::to('public/client/images/product-details/new.jpg')}}" class="newarrival" alt="" />
-                <h2>{{$item->name}}</h2>
-                <p>Mã ID: {{$item->id}}</p>
+                <h2>{{$pro->name}}</h2>
+                <p>Mã ID: {{$pro->id}}</p>
                 <img src="{{URL::to('public/client/images/product-details/rating.png')}}" alt="" />
-                <form action="{{URL::to('/save-cart')}}" method="POST">
-                    {{ csrf_field() }}
+                {{-- <form action="{{URL::to('/save-cart')}}" method="POST"> --}}
+                <form>
+                    @csrf
+                    <input type="hidden" class="cart_product_id_{{$pro->id}}" value="{{$pro->id}}"/>
+                    <input type="hidden" class="cart_product_name_{{$pro->id}}" value="{{$pro->name}}"/>
+                    <input type="hidden" class="cart_product_image_{{$pro->id}}" value="{{$pro->image}}"/>
+                    <input type="hidden" class="cart_product_price_{{$pro->id}}" value="{{$pro->price}}"/>
+                            
                     <span>
-                        <span>{{number_format($item->price,0,',','.')}} VND</span>
+                        <span>{{number_format($pro->price,0,',','.')}} VND</span>
                         <label>Quantity:</label>
-                        <input name="qty" type="number" min="1" value="1" />
-                        <input name="product_id_hidden" type="hidden" value="{{$item->id}}" />
-                        <button type="submit" class="btn btn-fefault cart">
+                        {{-- Số lượng sản phẩm đã chọn --}}
+                        <input type="number" class="cart_product_qty_{{$pro->id}}" min="1" value="1"/>
+                        <input name="product_id_hidden" type="hidden" value="{{$pro->id}}" />
+                        {{-- <button type="button" class="btn btn-default cart" name="add-to-cart" data-id="{{$pro->id}}" >
+                            <i class="fa fa-shopping-cart"></i>
+                            Thêm vào giỏ hàng
+                        </button> --}}
+                        <button type="button" name="add-to-cart" data-id="{{$pro->id}}" class="btn btn-default add-to-cart">
                             <i class="fa fa-shopping-cart"></i>
                             Thêm vào giỏ hàng
                         </button>
+
                     </span>
+
                 </form>
                 <p><b>Tình trạng:</b> Còn hàng</p>
                 <p><b>Điều kiện:</b> Mới 100%</p>
-                <p><b>Danh mục:</b> {{$item->category_name}}</p>
-                <p><b>Thương hiệu:</b> {{$item->brand_name}}</p>
+                <p><b>Danh mục:</b> {{$pro->category_name}}</p>
+                <p><b>Thương hiệu:</b> {{$pro->brand_name}}</p>
                 <a href=""><img src="{{URL::to('public/client/images/product-details/share.png')}}" class="share img-responsive"  alt="" /></a>
             </div><!--/product-information-->
         </div>
@@ -65,11 +78,11 @@
         </div>
         <div class="tab-content">
             <div class="tab-pane fade active in" id="details" >
-                <p>{!!$item->content!!}</p>
+                <p>{!!$pro->content!!}</p>
             </div>
             
             <div class="tab-pane fade" id="companyprofile" >
-                <p>{!!$item->desc!!}</p>
+                <p>{!!$pro->desc!!}</p>
             </div>
             
             
@@ -106,19 +119,32 @@
         <div id="recommended-item-carousel" class="carousel slide" data-ride="carousel">
             <div class="carousel-inner">
                 <div class="item active">	
-                    @foreach ($related_product as $item )
+                    @foreach ($related_product as $key =>$pro )
                         <div class="col-sm-4">
                             <div class="product-image-wrapper">
                                 <div class="single-products">
                                     <div class="productinfo text-center">
-                                        <a href="{{URL::to('/detail-product/'.$item->id)}}">
-                                            <img src="{{URL::to('public/uploads/products/'.$item->image)}}" alt="" height="150px"/>
-                                        </a>
-                                        <h2>{{number_format($item->price,0,',','.')}} VND</h2>
-                                        <p>{{$item->name}}</p>
-                                        <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</a>
+                                        
+                                        <form>
+                                            @csrf
+                                            <input type="hidden" class="cart_product_id_{{$pro->id}}" value="{{$pro->id}}"/>
+                                            <input type="hidden" class="cart_product_name_{{$pro->id}}" value="{{$pro->name}}"/>
+                                            <input type="hidden" class="cart_product_image_{{$pro->id}}" value="{{$pro->image}}"/>
+                                            <input type="hidden" class="cart_product_price_{{$pro->id}}" value="{{$pro->price}}"/>
+                                            <input type="hidden" class="cart_product_qty_{{$pro->id}}" value="1"/>
+                                            
+                                            <a href="{{URL::to('/detail-product/'.$pro->id)}}">
+                                                <img src="{{URL::to('public/uploads/products/'.$pro->image)}}" alt="" height="150px"/>
+                                            
+                                                <h2>{{number_format($pro->price,0,',','.').'$'}}</h2>
+                                                <p>{{$pro->name}}</p>
+                                            {{-- <a href="#" class="btn btn-default add-to-cart">
+                                                <i class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng --}}
+                                            </a>
+                                            <button type="button" name="add-to-cart" data-id="{{$pro->id}}" class="btn btn-default add-to-cart">Thêm giỏ hàng</button>
+                                        </form>
                                     </div>
-                            </div>
+                                </div>
                             </div>
                         </div>
                     @endforeach

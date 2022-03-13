@@ -35,6 +35,9 @@ Route::get('/show-cart', [CartController::class, 'show_cart']);
 Route::post('/update-cart', [CartController::class, 'update_cart']);
 Route::get('/delete-product-ajax/{session_id}', [CartController::class, 'delete_product_ajax']);
 Route::get('/delete-all-product', [CartController::class, 'delete_all_product']);
+//--------------Thanh toán
+// Route::get('/login-checkout', [CartController::class, 'login_checkout']);
+
 
 
 // =======================Admin=========================
