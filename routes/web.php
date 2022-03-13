@@ -37,14 +37,18 @@ Route::post('/update-cart', [CartController::class, 'update_cart']);
 Route::get('/delete-product-ajax/{session_id}', [CartController::class, 'delete_product_ajax']);
 Route::get('/delete-all-product', [CartController::class, 'delete_all_product']);
 //------------------Thanh toán-----------------------
+// Mở giao diện đăng nhập, đăng kí tài khoản
 Route::get('/login-checkout', [CheckoutController::class, 'login_checkout']);
 //---Đăng kí tài khoản mới
 Route::post('/add-customer', [CheckoutController::class, 'add_customer']);
 // Trang thanh toán
 Route::get('/checkout', [CheckoutController::class, 'checkout']);
-// Trang thanh toán
+// Lưu thông tin người nhận đơn hàng
 Route::post('/save-checkout-customer', [CheckoutController::class, 'save_checkout_customer']);
-
+// Đăng xuất khỏi tài khoản
+Route::get('/logout-checkout', [CheckoutController::class, 'logout_checkout']);
+// Đăng nhập vào tài khoản khách hàng
+Route::post('/login-customer', [CheckoutController::class, 'login_customer']);
 
 
 // =======================Admin=========================

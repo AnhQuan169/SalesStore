@@ -25,7 +25,7 @@ class CheckoutController extends Controller
         $data = array();
         $data['name'] = $request->name;
         $data['email'] = $request->email;
-        $data['password'] = $request->password;
+        $data['password'] = md5($request->password);
         $data['phone'] = $request->phone;
 
         // Ngay sau khi insert dữ liệu vào table tbl_customer
@@ -67,5 +67,26 @@ class CheckoutController extends Controller
 
     public function payment(){
 
+    }
+
+    // Đăng xuất
+    public function logout_checkout(){
+        Session::flush();
+        return Redirect::to('/login-checkout');
+    }
+
+    // Đăng nhập vào tài khoản khách hàng
+    public function login_customer(Request $request){
+        $email=$request->email_account;
+        $password = md5($request->password_account);
+        $result = DB::table('tbl_customer')->where('email',$email)->where('password',$password)->first();
+        
+        if($result){
+            Session::put('customer_id',$result->id);
+            return Redirect::to('/checkout');
+        }else{
+            return Redirect::to('/login-checkout');
+        }
+        
     }
 }
