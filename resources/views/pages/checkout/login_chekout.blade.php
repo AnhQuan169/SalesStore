@@ -7,7 +7,7 @@
                 <div class="login-form"><!--login form-->
                     <h2>Đăng nhập tài khoản</h2>
                     <form action="#">
-                        <input type="text" name="email_account" placeholder="Tài khoản" />
+                        <input type="text" name="email_account" placeholder="Email" />
                         <input type="password" name="password_account" placeholder="Mật khẩu" />
                         <span>
                             <input type="checkbox" class="checkbox"> 
@@ -23,10 +23,12 @@
             <div class="col-sm-4">
                 <div class="signup-form"><!--sign up form-->
                     <h2>Đăng kí</h2>
-                    <form action="#">
-                        <input type="text" placeholder="Name"/>
-                        <input type="email" placeholder="Email Address"/>
-                        <input type="password" placeholder="Password"/>
+                    <form action="{{URL::to('add-customer')}}" method="POST">
+                        {{ csrf_field() }}
+                        <input type="text" name="name" placeholder="Tên tài khoản"/>
+                        <input type="email" name="email" placeholder="Địa chỉ email"/>
+                        <input type="password" name="password" placeholder="Mật khẩu"/>
+                        <input type="number" name="phone" placeholder="Số điện thoại"/>
                         <button type="submit" class="btn btn-default">Đăng kí</button>
                     </form>
                 </div><!--/sign up form-->

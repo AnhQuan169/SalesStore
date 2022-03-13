@@ -18,4 +18,25 @@ class CheckoutController extends Controller
 
         return view('pages.checkout.login_chekout')->with('category',$cate_pro)->with('brand',$brand_pro);
     }
+
+    public function add_customer(Request $request){
+        $data = array();
+        $data['name'] = $request->name;
+        $data['email'] = $request->email;
+        $data['password'] = $request->password;
+        $data['phone'] = $request->phone;
+
+        // Ngay sau khi insert dữ liệu vào table tbl_customer
+        // - Dữ liệu sẽ được insert vào biến $insert_customer 
+        // - Do sử dụng hàm insertGetId()
+        $customer_id = DB::table('tbl_customer')->insertGetId($data);
+        Session::put('customer_id',$customer_id);
+        Session::put('customer_name',$request->name);
+        
+        return Redirect('/checkout');
+    }
+
+    public function checkout(){
+        return 'Thanh toán';
+    }
 }
