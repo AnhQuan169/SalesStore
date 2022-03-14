@@ -53,6 +53,15 @@
 				</div>
 			</div>
 		</div><!--/header_top-->
+		@if (session()->has('message'))
+			<div class="alert alert-success">
+				{{session()->get('message')}}
+			</div>
+		@elseif (session()->has('error'))
+			<div class="alert alert-success">
+				{{session()->get('error')}}
+			</div>
+		@endif
 		
 		<div class="header-middle"><!--header-middle-->
 			<div class="container">
@@ -89,14 +98,32 @@
 						<div class="shop-menu pull-right">
 							<ul class="nav navbar-nav">
 								<li><a href="#"><i class="fa fa-star"></i> Yêu thích</a></li>
-								@if (Session::get('customer_id'))
+								@if (Session::get('customer_id')!=null && Session::get('shipping_id')==null)
 									<li><a href="{{URL::to('/checkout')}}"><i class="fa fa-crosshairs"></i>Thanh toán</a></li>
+								@elseif(Session::get('customer_id')!=null && Session::get('shipping_id')!=null)
+									<li><a href="{{URL::to('/payment')}}"><i class="fa fa-crosshairs"></i>Thanh toán</a></li>
 								@else
 									<li><a href="{{URL::to('/login-checkout')}}"><i class="fa fa-crosshairs"></i>Thanh toán</a></li>
 								@endif
 								<li><a href="{{URL::to('/show-cart')}}"><i class="fa fa-shopping-cart"></i>Giỏ hàng</a></li>
 								@if (Session::get('customer_id'))
-									<li><a href="{{URL::to('/logout-checkout')}}"><i class="fa fa-logout"></i>Đăng xuất</a></li>
+									<li class="dropdown">
+										<a data-toggle="dropdown" class="dropdown-toggle" style="" >
+											<span class="username">
+												<?php 
+													$name = Session::get('customer_name');
+													if($name){
+														echo $name;
+													}
+							
+												?>
+											</span>
+											<b class="caret"></b>
+										</a>
+										<ul class="dropdown-menu extended logout">
+											<li><a href="{{URL::to('/logout-checkout')}}"><i class="fa fa-logout"></i>Đăng xuất</a></li>
+										</ul>
+									</li>
 								@else
 									<li><a href="{{URL::to('/login-checkout')}}"><i class="fa fa-lock"></i>Đăng nhập</a></li>
 								@endif

@@ -1,23 +1,17 @@
 @extends('layout')
 @section('content')
-
 <section id="cart_items">
     <div class="container">
         <div class="breadcrumbs">
             <ol class="breadcrumb">
               <li><a href="{{URL::to('/')}}">Trang chủ</a></li>
-              <li class="active">Giỏ hàng của bạn</li>
+              <li class="active">Thanh toán giỏ hàng</li>
             </ol>
+        </div><!--/breadcrums-->
+
+        <div class="review-payment">
+            <h2>Xem lại giỏ hàng</h2>
         </div>
-        @if (session()->has('message'))
-            <div class="alert alert-success">
-                {{session()->get('message')}}
-            </div>
-        @elseif (session()->has('error'))
-            <div class="alert alert-success">
-                {{session()->get('error')}}
-            </div>
-        @endif
         <div class="table-responsive cart_info">
             <form action="{{URL::to('/update-cart')}}" method="POST">
                 @csrf
@@ -41,7 +35,6 @@
                             @php
                                 $subtotal = $pro['product_price']*$pro['product_qty'];
                                 $total += $subtotal;
-                                Session::put('total_order',$total);
                             @endphp
                                 <tr>
                                     <td class="cart_product">
@@ -91,37 +84,25 @@
                 </table>
             </form>
         </div>
-        <div class="container" style="margin-bottom:15px;">
-            <div class="row">
-                <div class="col-sm-6">
-                    <div class="total_area">
-                        <ul>
-                            <li>Tổng tiền <span>
-                                @if (Session::get('cart')==true)
-                                    {{number_format($total,0,',','.')}} VND
-                                @else
-                                    0
-                                @endif</span></li>
-                            <li>Thuế <span></span></li>
-                            <li>Phí vận chuyển <span></span></li>
-                            <li>Thành tiền <span></span></li>
-                        </ul>
-                        @if(Session::get('customer_id'))
-                            <a class="btn btn-default check_out" href="{{URL::to('/checkout')}}">Thanh toán</a>
-                        @else
-                            <a class="btn btn-default check_out" href="{{URL::to('/login-checkout')}}">Thanh toán</a>
-                        @endif
-                    </div>
-                </div>
+        <h4 style="margin:40px 0;font-size:20px">Chọn hình thức thanh toán</h4>
+        <form action="{{URL::to('/order-place')}}" method="POST" style="height:auto">
+            {{ csrf_field() }}
+            <div class="payment-options">
+                <span>
+                    <label><input name="payment_option" value="1" type="radio"> Trả bằng thẻ ATM</label>
+                </span>
+                <span>
+                    <label><input name="payment_option" value="2" type="radio"> Nhận tiền mặt</label>
+                </span>
+                <span>
+                    <label><input name="payment_option" value="3" type="radio"> Paypal</label>
+                </span>
             </div>
-        </div>
-        
+            <input style="margin-bottom: 30px;" name="send_order_place" type="submit" class="btn btn-primary btn-sm" value="Đặt hàng" />
+
+        </form>
         
     </div>
 </section> <!--/#cart_items-->
-{{-- <section id="do_action">
-    
-</section> --}}
-
 
 @endsection

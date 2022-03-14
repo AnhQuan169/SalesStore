@@ -49,7 +49,10 @@ Route::post('/save-checkout-customer', [CheckoutController::class, 'save_checkou
 Route::get('/logout-checkout', [CheckoutController::class, 'logout_checkout']);
 // Đăng nhập vào tài khoản khách hàng
 Route::post('/login-customer', [CheckoutController::class, 'login_customer']);
-
+// Giao diện chọn hình thức thanh toán đơn hàng
+Route::get('/payment', [CheckoutController::class, 'payment']);
+// Chọn hình thức thanh toán đơn hàng
+Route::post('/order-place', [CheckoutController::class, 'order_place']);
 
 // =======================Admin=========================
 Route::get('/admin', [AdminController::class, 'index']);
