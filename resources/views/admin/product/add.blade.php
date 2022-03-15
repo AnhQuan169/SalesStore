@@ -21,7 +21,7 @@
                             {{ csrf_field() }}
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Tên sản phẩm</label>
-                                <input name="product_name" type="text" class="form-control" id="exampleInputEmail1" placeholder="Tên thương hiệu sản phẩm">
+                                <input data-validation="length" data-validation-length="min1" data-validation-error-msg="Hãy điền tên sản phẩm" name="product_name" type="text" class="form-control" id="exampleInputEmail1" placeholder="Tên thương hiệu sản phẩm">
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputPassword1">Danh mục sản phẩm</label>
@@ -41,19 +41,22 @@
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputPassword1">Mô tả sản phẩm</label>
-                                <textarea style="resize: none" rows="5" name="product_desc"  class="form-control" id="ckeditor1" placeholder="Mô tả thương hiệu"></textarea>
+                                <textarea style="resize: none" rows="5" name="product_desc"  class="form-control" id="ckeditor1" required  placeholder="Mô tả thương hiệu"></textarea>
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputPassword1">Nội dung sản phẩm</label>
-                                <textarea style="resize: none" rows="5" name="product_content" class="form-control" id="ckeditor2" placeholder="Nội dung thương hiệu"></textarea>
+                                <textarea  style="resize: none" rows="5" name="product_content" class="form-control" id="ckeditor2" placeholder="Nội dung thương hiệu"></textarea>
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Giá sản phẩm</label>
-                                <input name="product_price" type="text" class="form-control" id="exampleInputEmail1" placeholder="Giá sản phẩm">
+                                <input type="text" data-validation="number" data-validation-allowing="range[1000;10000000]" data-validation-error-msg="Hãy điền giá của sản phẩm (Lớn hơn 1.000 VND và nhỏ hơn 10 triệu VND)" name="product_price" type="text" class="form-control" id="exampleInputEmail1" placeholder="Giá sản phẩm">
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Hình ảnh</label>
-                                <input name="product_image" type="file" class="form-control" id="exampleInputEmail1" placeholder="Hình ảnh">
+                                <input type="file" multiple="multiple" data-validation="length size" 
+                                    data-validation-length="min1" data-validation-error-msg-length="Hãy chọn 1 ảnh sản phẩm" 
+                                    data-validation-max-size="512kb" data-validation-error-msg-size="Hãy chọn ảnh sản phẩm có kích thước < 512KB"
+                                    name="product_image" class="form-control" id="exampleInputEmail1" placeholder="Hình ảnh">
                             </div>
                             
                             <div class="form-group">

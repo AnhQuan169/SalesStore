@@ -162,6 +162,17 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <script src="{{asset('public/admin/js/jquery.nicescroll.js')}}"></script>
 <!--[if lte IE 8]><script language="javascript" type="text/javascript" src="js/flot-chart/excanvas.min.js"></script><![endif]-->
 <script src="{{asset('js/jquery.scrollTo.js')}}"></script>
+
+
+{{-- Form Validation JQuery --}}
+<script src="{{asset('public/admin/jQuery-Form-Validator-master/form-validator/jquery.form-validator.min.js')}}"></script>
+<script>
+    $.validate({
+        modules : 'date, security'
+    });
+</script>
+
+
 {{-- Trình soạn thảo CKeditor --}}
 <script src="{{asset('public/admin/ckeditor/ckeditor.js')}}"></script>
 {{-- Mỗi lần áp dụng chỉ 1 biến áp dụng cho 1 'id' --}}
@@ -185,6 +196,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 	CKEDITOR.replace('ckeditor8');
 </script>
 <!-- morris JavaScript -->	
+
+
 <script>
 	$(document).ready(function() {
 		//BOX BUTTON SHOW AND CLOSE
