@@ -113,7 +113,7 @@ class CartController extends Controller
             Session::put('cart',$cart);
             return Redirect()->back()->with('message','Cập nhật sản phẩm thành công');
         }else{
-            return Redirect()->back()->with('message','Cập nhật sản phẩm thất bại');
+            return Redirect()->back()->with('error','Cập nhật sản phẩm thất bại');
         }
     }
 
@@ -134,7 +134,7 @@ class CartController extends Controller
             Session::put('cart',$cart);
             return Redirect()->back()->with('message','Xoá sản phẩm thành công');
         }else{
-            return Redirect()->back()->with('message','Xoá sản phẩm thất bại');
+            return Redirect()->back()->with('error','Xoá sản phẩm thất bại');
         }
     }
 
@@ -147,7 +147,7 @@ class CartController extends Controller
             Session::forget('cart');
             return Redirect()->back()->with('message','Xoá sản phẩm thành công');
         }else{
-            return Redirect()->back()->with('message','Xoá sản phẩm thất bại');
+            return Redirect()->back()->with('error','Xoá sản phẩm thất bại');
         }
     }
 }

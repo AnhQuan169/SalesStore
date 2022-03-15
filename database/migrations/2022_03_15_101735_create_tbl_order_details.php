@@ -14,12 +14,12 @@ class CreateTblOrderDetails extends Migration
     public function up()
     {
         Schema::create('tbl_order_details', function (Blueprint $table) {
-            $table->increments('id');
+            $table->increments('order_detail_id');
             $table->integer('order_id');
             $table->integer('product_id');
-            $table->string('name');
-            $table->float('price');
-            $table->integer('quantity');
+            $table->string('order_detail_name');
+            $table->float('order_detail_price');
+            $table->integer('order_detail_quantity');
             $table->timestamps();
         });
     }

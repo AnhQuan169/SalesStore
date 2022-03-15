@@ -7,6 +7,7 @@ use App\Http\Controllers\CategoryProduct;
 use App\Http\Controllers\CheckoutController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 
 /*
@@ -53,6 +54,10 @@ Route::post('/login-customer', [CheckoutController::class, 'login_customer']);
 Route::get('/payment', [CheckoutController::class, 'payment']);
 // Chọn hình thức thanh toán đơn hàng
 Route::post('/order-place', [CheckoutController::class, 'order_place']);
+
+
+
+
 
 // =======================Admin=========================
 Route::get('/admin', [AdminController::class, 'index']);
@@ -108,3 +113,9 @@ Route::get('/edit-product/{product_id}', [ProductController::class, 'edit_produc
 Route::post('/update-product/{product_id}', [ProductController::class, 'update_product']);
 // Xoá thương hiệu sản phẩm được chọn
 Route::get('/delete-product/{product_id}', [ProductController::class, 'delete_product']);
+
+// -------------Quản lí đơn hàng-------------------
+// Danh sách đơn hàng
+Route::get('/manage-order', [OrderController::class, 'manage_order']);
+//Chi tiết đơn hàng được chọn
+Route::get('/view-order/{order_id}', [OrderController::class, 'view_order']);

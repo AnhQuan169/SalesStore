@@ -47,18 +47,24 @@ class CheckoutController extends Controller
         $cate_pro = DB::table('tbl_category_product')->where('category_status','1')->orderBy('category_id','desc')->get();
         $brand_pro = DB::table('tbl_brand')->where('brand_status','1')->orderBy('brand_id','desc')->get();
 
-        return view('pages.checkout.show_checkout')->with('category',$cate_pro)->with('brand',$brand_pro);
+        if(Session::get('cart')){
+            return view('pages.checkout.show_checkout')->with('category',$cate_pro)->with('brand',$brand_pro);
+        }else{
+            // Session::put('message','Hãy chọn sản phẩm trước khi thanh toán');
+            // return view('pages.cart.show_cart')->with('category',$cate_pro)->with('brand',$brand_pro)->with('message','Hãy chọn sản phẩm trước khi thanh toán');
+            return Redirect()->back()->with('error','Hãy chọn sản phẩm trước khi thanh toán');
+        }
     }
 
     // Lưu thông tin người nhận đơn hàng
     // Thông tin trong table tbl_shipping
     public function save_checkout_customer(Request $request){
         $data = array();
-        $data['name'] = $request->name;
-        $data['email'] = $request->email;
-        $data['address'] = $request->address;
-        $data['phone'] = $request->phone;
-        $data['note'] = $request->note;
+        $data['shipping_name'] = $request->name;
+        $data['shipping_email'] = $request->email;
+        $data['shipping_address'] = $request->address;
+        $data['shipping_phone'] = $request->phone;
+        $data['shipping_note'] = $request->note;
 
         // Ngay sau khi insert dữ liệu vào table tbl_customer
         // - Dữ liệu sẽ được insert vào biến $insert_customer 
@@ -69,7 +75,7 @@ class CheckoutController extends Controller
         return Redirect('/payment');
     }
 
-    // Thanh toán đơn hàng
+    // Giao diện chọn hình thức thanh toán
     public function payment(){
         $cate_pro = DB::table('tbl_category_product')->where('category_status','1')->orderBy('category_id','desc')->get();
         $brand_pro = DB::table('tbl_brand')->where('brand_status','1')->orderBy('brand_id','desc')->get();
@@ -110,13 +116,13 @@ class CheckoutController extends Controller
         // ----------Áp dụng vào tbl_payment----------------
         // insert payment_method
         $payment_data = array();
-        $data['method'] = $request->payment_option;
+        $payment_data['payment_method'] = $request->payment_option;
         // 1: Đang chờ xử lí
-        $data['status'] = 1;
+        $payment_data['payment_status'] = 1;
         // Ngay sau khi insert dữ liệu vào table tbl_customer
         // - Dữ liệu sẽ được insert vào biến $insert_customer 
         // - Do sử dụng hàm insertGetId()
-        $payment_id = DB::table('tbl_payment')->insertGetId($data);
+        $payment_id = DB::table('tbl_payment')->insertGetId($payment_data);
 
         // ---------Áp dụng vào tbl_order-------------
         // Insert vào order
@@ -124,8 +130,8 @@ class CheckoutController extends Controller
         $order_data['customer_id'] = Session::get('customer_id');
         $order_data['shipping_id'] = Session::get('shipping_id');
         $order_data['payment_id'] = $payment_id;
-        $order_data['total'] = Session::get('total_order');
-        $order_data['status'] = 1;
+        $order_data['order_total'] = Session::get('total_order');
+        $order_data['order_status'] = 1;
         $order_id = DB::table('tbl_order')->insertGetId($order_data);
         
         // ---------Áp dụng vào tbl_order_details-------------
@@ -135,13 +141,23 @@ class CheckoutController extends Controller
         foreach($cart as $key => $pro){
             $order_details_data['order_id'] = $order_id;
             $order_details_data['product_id'] = $pro['product_id'];
-            $order_details_data['name'] = $pro['product_name'];
-            $order_details_data['price'] = $pro['product_price'];
-            $order_details_data['quantity'] = $pro['product_qty'];
+            $order_details_data['order_detail_name'] = $pro['product_name'];
+            $order_details_data['order_detail_price'] = $pro['product_price'];
+            $order_details_data['order_detail_quantity'] = $pro['product_qty'];
             DB::table('tbl_order_details')->insert($order_details_data);
         }
         Session::forget('cart');
+        if($payment_data['payment_method']==1){
+            echo 'Thanh toán bằng thẻ ATM';
+        }elseif($payment_data['payment_method']==2){
+            $cate_pro = DB::table('tbl_category_product')->where('category_status','1')->orderBy('category_id','desc')->get();
+            $brand_pro = DB::table('tbl_brand')->where('brand_status','1')->orderBy('brand_id','desc')->get();
 
-        return Redirect('/')->with('message','Đặt hàng thành công');
+            return view('pages.checkout.checkouts.handcash')->with('category',$cate_pro)->with('brand',$brand_pro);
+        }else{
+            echo 'Paypal';
+        }
+
+        // return Redirect('/')->with('message','Đặt hàng thành công');
     }
 }
