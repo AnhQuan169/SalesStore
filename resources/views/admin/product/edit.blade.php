@@ -50,11 +50,11 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="exampleInputPassword1">Mô tả sản phẩm</label>
-                                    <textarea style="resize: none" rows="5" name="product_desc"  class="form-control" id="exampleInputPassword1" >{{$pro->desc}}</textarea>
+                                    <textarea style="resize: none" rows="5" name="product_desc"  class="form-control" id="ckeditor3" >{{$pro->desc}}</textarea>
                                 </div>
                                 <div class="form-group">
                                     <label for="exampleInputPassword1">Nội dung sản phẩm</label>
-                                    <textarea style="resize: none" rows="5" name="product_content" class="form-control" id="exampleInputPassword1" >{{$pro->content}}</textarea>
+                                    <textarea style="resize: none" rows="5" name="product_content" class="form-control" id="ckeditor4" >{{$pro->content}}</textarea>
                                 </div>
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Giá sản phẩm</label>

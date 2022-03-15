@@ -162,6 +162,28 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <script src="{{asset('public/admin/js/jquery.nicescroll.js')}}"></script>
 <!--[if lte IE 8]><script language="javascript" type="text/javascript" src="js/flot-chart/excanvas.min.js"></script><![endif]-->
 <script src="{{asset('js/jquery.scrollTo.js')}}"></script>
+{{-- Trình soạn thảo CKeditor --}}
+<script src="{{asset('public/admin/ckeditor/ckeditor.js')}}"></script>
+{{-- Mỗi lần áp dụng chỉ 1 biến áp dụng cho 1 'id' --}}
+<script type="text/javascript">
+	CKEDITOR.replace('ckeditor');
+	// Thêm mô tả sản phẩm
+	CKEDITOR.replace('ckeditor1');
+	// Thêm nội dung sản phẩm
+	CKEDITOR.replace('ckeditor2');
+	// Chỉnh sửa mô tả sản phẩm
+	CKEDITOR.replace('ckeditor3');
+	// Chỉnh sửa nội dung sản phẩm
+	CKEDITOR.replace('ckeditor4');
+	// Thêm mô tả danh mục
+	CKEDITOR.replace('ckeditor5');
+	// Chỉnh sửa mô tả danh mục
+	CKEDITOR.replace('ckeditor6');
+	// Thêm mô tả thương hiệu
+	CKEDITOR.replace('ckeditor7');
+	// Chỉnh sửa mô tả thương hiệu
+	CKEDITOR.replace('ckeditor8');
+</script>
 <!-- morris JavaScript -->	
 <script>
 	$(document).ready(function() {

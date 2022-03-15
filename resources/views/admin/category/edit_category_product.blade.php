@@ -27,7 +27,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputPassword1">Mô tả danh mục</label>
-                                <textarea style="resize: none" rows="5" name="category_product_desc" type="password" class="form-control" id="exampleInputPassword1" placeholder="Mô tả danh mục">{{$edit_value->category_desc}}
+                                <textarea style="resize: none" rows="5" name="category_product_desc" type="password" class="form-control" id="ckeditor6" placeholder="Mô tả danh mục">{{$edit_value->category_desc}}
                                 </textarea>
                             </div>
                             <div class="form-group">

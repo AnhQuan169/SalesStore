@@ -53,7 +53,17 @@
 				</div>
 			</div>
 		</div><!--/header_top-->
-		
+		<div class="header-middle" style="text-align: center;">
+			@if (session()->has('message'))
+				<div class="alert alert-success">
+					{{session()->get('message')}}
+				</div>
+			@elseif (session()->has('error'))
+				<div class="alert alert-danger">
+					{{session()->get('error')}}
+				</div>
+			@endif
+		</div>
 		
 		<div class="header-middle"><!--header-middle-->
 			<div class="container">
