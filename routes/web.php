@@ -57,6 +57,8 @@ Route::get('/payment', [CheckoutController::class, 'payment']);
 // Chọn hình thức thanh toán đơn hàng
 Route::post('/order-place', [CheckoutController::class, 'order_place']);
 
+// --------------------Send Mail------------------------
+Route::get('/send-mail', [HomeController::class, 'send_mail']);
 
 
 // =======================Admin=========================

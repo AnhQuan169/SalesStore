@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Session;
 // Thư viện cho phép xử lí thông tin dữ liệu khi thành công hoặc thất bại với lệnh
 use Illuminate\Support\Facades\Redirect;
 use Yoeunes\Toastr;
+use Illuminate\Support\Facades\Mail;
 Session_start();
 
 class HomeController extends Controller
@@ -43,5 +44,18 @@ class HomeController extends Controller
 
         return view('pages.products.search_product',compact('category','brand','search_pro'));
         
+    }
+
+    public function send_mail(){
+        $to_name = "ant";
+        $to_email = "anhquannguyen124@gmail.com";//send to this email
+
+        $data = array("name"=>"Mail from QK Store ","body"=>"Xác nhận đặt hàng thành công"); //body of mail.blade.php
+
+        Mail::send('pages.send_mail',$data,function($message) use ($to_name,$to_email){
+            $message->to($to_email)->subject('Xác nhận đặt hàng thành công từ QK Store');//send this mail with subject
+            $message->from($to_email,$to_name);//send from this mail
+        });
+        // return Redirect::to('/')->with('message','');
     }
 }
