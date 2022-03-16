@@ -147,7 +147,7 @@
 		<div class="header-bottom"><!--header-bottom-->
 			<div class="container">
 				<div class="row">
-					<div class="col-sm-9">
+					<div class="col-sm-7">
 						<div class="navbar-header">
 							<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
 								<span class="sr-only">Toggle navigation</span>
@@ -179,10 +179,14 @@
 							</ul>
 						</div>
 					</div>
-					<div class="col-sm-3">
-						<div class="search_box pull-right">
-							<input type="text" placeholder="Search"/>
-						</div>
+					<div class="col-sm-5">
+						<form action="{{URL::to('/search-product')}}" method="POST">
+							{{ csrf_field() }}
+							<div class="search_box pull-right">
+								<input type="text" name="keyword_product" placeholder="Tìm kiếm sản phẩm"/>
+								<input type="submit" style="margin-top:0;color:white;font-size:15px;width: 100px;" name="search_item" class="btn btn-primary get" value="Tìm kiếm" />
+							</div>								
+						</form>
 					</div>
 				</div>
 			</div>

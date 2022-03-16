@@ -24,6 +24,8 @@ use App\Http\Controllers\ProductController;
 //=======================Client===========================
 Route::get('/', [HomeController::class, 'index']);
 Route::get('/trang-chu', [HomeController::class, 'index']);
+// Tìm kiếm sản phẩm với từ khoá
+Route::post('/search-product', [HomeController::class, 'search_product']);
 // Danh mục sản phẩm trang chủ
 Route::get('/category-product/{category_id}', [CategoryProduct::class, 'show_Category_Home']);
 // Thương hiệu sản phẩm trang chủ
@@ -54,8 +56,6 @@ Route::post('/login-customer', [CheckoutController::class, 'login_customer']);
 Route::get('/payment', [CheckoutController::class, 'payment']);
 // Chọn hình thức thanh toán đơn hàng
 Route::post('/order-place', [CheckoutController::class, 'order_place']);
-
-
 
 
 

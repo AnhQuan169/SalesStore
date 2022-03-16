@@ -22,13 +22,26 @@ class HomeController extends Controller
         // $url_cannical = $request->url();
         // --Seo meta
 
-        $cate_pro = DB::table('tbl_category_product')->where('category_status','1')->orderBy('category_id','desc')->get();
-        $brand_pro = DB::table('tbl_brand')->where('brand_status','1')->orderBy('brand_id','desc')->get();
+        $category = DB::table('tbl_category_product')->where('category_status','1')->orderBy('category_id','desc')->get();
+        $brand = DB::table('tbl_brand')->where('brand_status','1')->orderBy('brand_id','desc')->get();
 
         $all_product = DB::table('tbl_product')->where('status','1')->orderBy('id','desc')->limit(3)->get();
         
-        return view('pages.home')->with('category',$cate_pro)->with('brand',$brand_pro)->with('all_product',$all_product);
+        return view('pages.home')->with('category',$category)->with('brand',$brand)->with('all_product',$all_product);
         // return view('pages.home')->with(compact('category','brand','all_product','meta_desc','meta_keywords','meta_title','url_cannical'));
+        
+    }
+
+    // Tìm kiếm sản phẩm
+    public function search_product(Request $request){
+        $category = DB::table('tbl_category_product')->where('category_status','1')->orderBy('category_id','desc')->get();
+        $brand = DB::table('tbl_brand')->where('brand_status','1')->orderBy('brand_id','desc')->get();
+        
+        $keywords = $request->keyword_product;
+        $search_pro = DB::table('tbl_product')->where('status','1')->orderBy('id','desc')->where('name','like','%'.$keywords.'%')->get();
+        
+
+        return view('pages.products.search_product',compact('category','brand','search_pro'));
         
     }
 }

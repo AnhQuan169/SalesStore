@@ -13,10 +13,10 @@ class CheckoutController extends Controller
 {
     //Hiển thị trang login khi nhấn nút thanh toán trong khi chưa có tài khoản
     public function login_checkout(){
-        $cate_pro = DB::table('tbl_category_product')->where('category_status','1')->orderBy('category_id','desc')->get();
-        $brand_pro = DB::table('tbl_brand')->where('brand_status','1')->orderBy('brand_id','desc')->get();
+        $category = DB::table('tbl_category_product')->where('category_status','1')->orderBy('category_id','desc')->get();
+        $brand = DB::table('tbl_brand')->where('brand_status','1')->orderBy('brand_id','desc')->get();
 
-        return view('pages.checkout.login_chekout')->with('category',$cate_pro)->with('brand',$brand_pro);
+        return view('pages.checkout.login_chekout')->with('category',$category)->with('brand',$brand);
     }
 
     // Đăng kí tài khoản cho khách hàng
@@ -44,14 +44,14 @@ class CheckoutController extends Controller
 
     //Mở giao diện trang nhập thông tin người nhận
     public function checkout(){
-        $cate_pro = DB::table('tbl_category_product')->where('category_status','1')->orderBy('category_id','desc')->get();
-        $brand_pro = DB::table('tbl_brand')->where('brand_status','1')->orderBy('brand_id','desc')->get();
+        $category = DB::table('tbl_category_product')->where('category_status','1')->orderBy('category_id','desc')->get();
+        $brand = DB::table('tbl_brand')->where('brand_status','1')->orderBy('brand_id','desc')->get();
 
         if(Session::get('cart')){
-            return view('pages.checkout.show_checkout')->with('category',$cate_pro)->with('brand',$brand_pro);
+            return view('pages.checkout.show_checkout')->with('category',$category)->with('brand',$brand);
         }else{
             // Session::put('message','Hãy chọn sản phẩm trước khi thanh toán');
-            // return view('pages.cart.show_cart')->with('category',$cate_pro)->with('brand',$brand_pro)->with('message','Hãy chọn sản phẩm trước khi thanh toán');
+            // return view('pages.cart.show_cart')->with('category',$category)->with('brand',$brand)->with('message','Hãy chọn sản phẩm trước khi thanh toán');
             return Redirect()->back()->with('error','Hãy chọn sản phẩm trước khi thanh toán');
         }
     }
@@ -77,10 +77,10 @@ class CheckoutController extends Controller
 
     // Giao diện chọn hình thức thanh toán
     public function payment(){
-        $cate_pro = DB::table('tbl_category_product')->where('category_status','1')->orderBy('category_id','desc')->get();
-        $brand_pro = DB::table('tbl_brand')->where('brand_status','1')->orderBy('brand_id','desc')->get();
+        $category = DB::table('tbl_category_product')->where('category_status','1')->orderBy('category_id','desc')->get();
+        $brand = DB::table('tbl_brand')->where('brand_status','1')->orderBy('brand_id','desc')->get();
 
-        return view('pages.checkout.payment')->with('category',$cate_pro)->with('brand',$brand_pro);
+        return view('pages.checkout.payment')->with('category',$category)->with('brand',$brand);
     
     }
 
@@ -148,14 +148,11 @@ class CheckoutController extends Controller
         }
         Session::forget('cart');
         if($payment_data['payment_method']==1){
-            echo 'Thanh toán bằng thẻ ATM';
+            return Redirect::to('/')->with('message','Cảm ơn bạn đã đặt hàng, chúng tôi sẽ liên hệ với bạn sớm nhất có thể');
         }elseif($payment_data['payment_method']==2){
-            $cate_pro = DB::table('tbl_category_product')->where('category_status','1')->orderBy('category_id','desc')->get();
-            $brand_pro = DB::table('tbl_brand')->where('brand_status','1')->orderBy('brand_id','desc')->get();
-
             return Redirect::to('/')->with('message','Cảm ơn bạn đã đặt hàng, chúng tôi sẽ liên hệ với bạn sớm nhất có thể');
         }else{
-            echo 'Paypal';
+            return Redirect::to('/')->with('message','Cảm ơn bạn đã đặt hàng, chúng tôi sẽ liên hệ với bạn sớm nhất có thể');
         }
 
         // return Redirect('/')->with('message','Đặt hàng thành công');

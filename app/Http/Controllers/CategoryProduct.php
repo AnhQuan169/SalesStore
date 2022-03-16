@@ -102,8 +102,8 @@ class CategoryProduct extends Controller
     //------------Client-------------
     // Hiển thị sản phẩm theo danh mục sản phẩm được chọn
     public function show_Category_Home(Request $request,$category_id){
-        $cate_pro = DB::table('tbl_category_product')->where('category_status','1')->orderBy('category_id','desc')->get();
-        $brand_pro = DB::table('tbl_brand')->where('brand_status','1')->orderBy('brand_id','desc')->get();
+        $category = DB::table('tbl_category_product')->where('category_status','1')->orderBy('category_id','desc')->get();
+        $brand = DB::table('tbl_brand')->where('brand_status','1')->orderBy('brand_id','desc')->get();
 
         $category_by_id = DB::table('tbl_product')
             ->join('tbl_category_product','tbl_product.category_id','=','tbl_category_product.category_id')
@@ -121,7 +121,7 @@ class CategoryProduct extends Controller
         // }
         // return view('pages.category.show_category')->with(compact('category','brand','category_by_id','cate_name','meta_desc','meta_keywords','meta_title','url_cannical'));
 
-        return view('pages.category.show_category')->with('category',$cate_pro)->with('brand',$brand_pro)
+        return view('pages.category.show_category')->with('category',$category)->with('brand',$brand)
             ->with('category_by_id',$category_by_id)->with('cate_name',$cate_name);
     }
 

@@ -102,8 +102,8 @@ class BrandController extends Controller
     //---------------Client---------------------
     // Hiển thị sản phẩm theo thương hiệu sản phẩm được chọn
     public function show_Brand_Home(Request $request,$brand_id){
-        $cate_pro = DB::table('tbl_category_product')->where('category_status','1')->orderBy('category_id','desc')->get();
-        $brand_pro = DB::table('tbl_brand')->where('brand_status','1')->orderBy('brand_id','desc')->get();
+        $category = DB::table('tbl_category_product')->where('category_status','1')->orderBy('category_id','desc')->get();
+        $brand = DB::table('tbl_brand')->where('brand_status','1')->orderBy('brand_id','desc')->get();
 
         $brand_by_id = DB::table('tbl_product')
             ->join('tbl_brand','tbl_product.brand_id','=','tbl_brand.brand_id')
@@ -121,7 +121,7 @@ class BrandController extends Controller
         // }
         // return view('pages.brand.show_brand',compact('category','brand','brand_by_id','brand_name','meta_desc','meta_keywords','meta_title','url_cannical'));
 
-        return view('pages.brand.show_brand')->with('category',$cate_pro)->with('brand',$brand_pro)
+        return view('pages.brand.show_brand')->with('category',$category)->with('brand',$brand)
             ->with('brand_by_id',$brand_by_id)->with('brand_name',$brand_name);
     }
 }

@@ -16,15 +16,15 @@ class CartController extends Controller
     // Thêm sản phẩm vào giỏ hàng không dùng Ajax
     // Chưa xử lí
     public function save_cart(Request $request){
-        $cate_pro = DB::table('tbl_category_product')->where('category_status','1')->orderBy('category_id','desc')->get();
-        $brand_pro = DB::table('tbl_brand')->where('brand_status','1')->orderBy('brand_id','desc')->get();
+        $category = DB::table('tbl_category_product')->where('category_status','1')->orderBy('category_id','desc')->get();
+        $brand = DB::table('tbl_brand')->where('brand_status','1')->orderBy('brand_id','desc')->get();
 
         $product_id = $request->product_id_hidden;
         $quanlity = $request->qty;
 
         $data = DB::table('tbl_product')->where('id',$product_id)->get();
         
-        return view('pages.cart.show_cart')->with('category',$cate_pro)->with('brand',$brand_pro);
+        return view('pages.cart.show_cart')->with('category',$category)->with('brand',$brand);
     }
 
     public function add_cart_ajax(Request $request){
@@ -88,10 +88,10 @@ class CartController extends Controller
         $meta_tile = "Giỏ hàng Ajax";
         $url_canonical = $request->url();
 
-        $cate_pro = DB::table('tbl_category_product')->where('category_status','1')->orderBy('category_id','desc')->get();
-        $brand_pro = DB::table('tbl_brand')->where('brand_status','1')->orderBy('brand_id','desc')->get();
+        $category = DB::table('tbl_category_product')->where('category_status','1')->orderBy('category_id','desc')->get();
+        $brand = DB::table('tbl_brand')->where('brand_status','1')->orderBy('brand_id','desc')->get();
 
-        return view('pages.cart.show_cart')->with('category',$cate_pro)->with('brand',$brand_pro)
+        return view('pages.cart.show_cart')->with('category',$category)->with('brand',$brand)
             ->with('meta_desc',$meta_desc)->with('meta_keywords',$meta_keywords)->with('meta_tile',$meta_tile)
             ->with('url_canonical',$url_canonical);
     }

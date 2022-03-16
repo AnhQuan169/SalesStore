@@ -154,8 +154,8 @@ class ProductController extends Controller
 
     //===================Client=====================
     public function detail_product($product_id){
-        $cate_pro = DB::table('tbl_category_product')->where('category_status','1')->orderBy('category_id','desc')->get();
-        $brand_pro = DB::table('tbl_brand')->where('brand_status','1')->orderBy('brand_id','desc')->get();
+        $category = DB::table('tbl_category_product')->where('category_status','1')->orderBy('category_id','desc')->get();
+        $brand = DB::table('tbl_brand')->where('brand_status','1')->orderBy('brand_id','desc')->get();
 
         $details_product = DB::table('tbl_product')
         ->join('tbl_category_product','tbl_category_product.category_id','=','tbl_product.category_id')
@@ -174,7 +174,7 @@ class ProductController extends Controller
         
 
 
-        return view('pages.products.show_detail')->with('category',$cate_pro)->with('brand',$brand_pro)
+        return view('pages.products.show_detail')->with('category',$category)->with('brand',$brand)
         ->with('details_product',$details_product)->with('related_product',$related_product);
     }
 

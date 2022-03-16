@@ -43,6 +43,7 @@ class OrderController extends Controller
         ->join('tbl_shipping','tbl_shipping.shipping_id','=','tbl_order.shipping_id')
         ->join('tbl_order_details','tbl_order_details.order_id','=','tbl_order.order_id')
         ->select('tbl_order.*','tbl_customer.*','tbl_shipping.*','tbl_order_details.*')
+        ->where('tbl_order.order_id',$order_id)
         ->first();
 
         $order_list = DB::table('tbl_order')
