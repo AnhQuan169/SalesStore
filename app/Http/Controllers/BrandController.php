@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Models\Brand;
 // Thư viện cho phép sử dụng Session
 use Illuminate\Support\Facades\Session;
 // Thư viện cho phép xử lí thông tin dữ liệu khi thành công hoặc thất bại với lệnh
@@ -33,21 +34,39 @@ class BrandController extends Controller
     //Danh sách thương hiệu sản phẩm
     public function all_brand(){
         $this->AuthLogin();
-        $all_brand = DB::table('tbl_brand')->get();
+        // Cách 1: DB: static hướng đối tượng
+        // $all_brand = DB::table('tbl_brand')->get();
+
+        // Cách 2: Model
+        // $all_brand = Brand::all();
+        // + take(3): lấy số lượng sản phẩm mong muốn
+        // + paginate(4): In ra số lượng sản phẩm có trong 1 trang
+        $all_brand = Brand::orderBy('brand_id','DESC')->get();
+        
         $manager_brand = view('admin.brand.all')->with('all_brand',$all_brand);
         return view('admin_layout')->with('admin.all_brand',$manager_brand);
     }
 
     // Lưu thương hiệu sản phẩm được thêm mới vào
     public function save_brand(Request $request){
-        $this->AuthLogin();
-        $data = array();
-        // Cú pháp: $data['tên của trường bên trong mysql] = $request->name của input lấy được từ code giao diện
-        $data['brand_name'] = $request->brand_name;
-        $data['brand_desc'] = $request->brand_desc;
-        $data['brand_status'] = $request->brand_status;
-        
-        DB::table('tbl_brand')->insert($data);
+        // Cách 1: Dùng DB tạo từ Migrate bình thường
+        // $this->AuthLogin();
+        // $data = array();
+        // // Cú pháp: $data['tên của trường bên trong mysql] = $request->name của input lấy được từ code giao diện
+        // $data['brand_name'] = $request->brand_name;
+        // $data['brand_desc'] = $request->brand_desc;
+        // $data['brand_status'] = $request->brand_status;
+        // DB::table('tbl_brand')->insert($data);
+
+        // Cách 2: Dùng Model
+        $data = $request->all();
+        $brand = new Brand();
+        // $brand->Các trường bên trong model = $data['các name của các input']
+        $brand->brand_name = $data['brand_name'];
+        $brand->brand_desc = $data['brand_desc'];
+        $brand->brand_status = $data['brand_status'];
+        $brand->save();
+
         Session::put('message','Thêm thương hiệu sản phẩm thành công');
         return Redirect::to('/add-brand');
     }
@@ -71,7 +90,15 @@ class BrandController extends Controller
     //Mở cửa sổ cập nhật thương hiệu sản phẩm được chọn
     public function edit_brand($brand_id){
         $this->AuthLogin();
-        $edit_brand = DB::table('tbl_brand')->where('brand_id',$brand_id)->get();
+        // Cách 1: DB
+        // $edit_brand = DB::table('tbl_brand')->where('brand_id',$brand_id)->get();
+        
+        // Cách 2: Model
+        // + Sử dụng hàm find() chỉ có thể cho ra 1 sản phẩm tương ứng với brand_id
+        $edit_brand = Brand::find($brand_id);
+        //  Cách 2.1 : Sử dụng Model nhưng có thể sử dụng foreach để truyền thông tin 
+        // $edit_brand = Brand::where('brand_id',$brand_id)->get();
+
         $manager_brand = view('admin.brand.edit')->with('edit_brand',$edit_brand);
         return view('admin_layout')->with('admin.edit_brand',$manager_brand);  
     }
@@ -79,13 +106,23 @@ class BrandController extends Controller
     // Lưu thông tin chỉnh sửa với thương hiệu san phẩm được chọn
     public function update_brand(Request $request,$brand_id){
         $this->AuthLogin();
-        $data = array();
-        // Cú pháp: $data['tên của trường bên trong mysql] = $request->name của input lấy được từ code giao diện
-        $data['brand_name'] = $request->brand_name;
-        $data['brand_desc'] = $request->brand_desc;
-        $data['brand_status'] = $request->brand_status;
+        // Cách 1: DB
+        // $data = array();
+        // // Cú pháp: $data['tên của trường bên trong mysql] = $request->name của input lấy được từ code giao diện
+        // $data['brand_name'] = $request->brand_name;
+        // $data['brand_desc'] = $request->brand_desc;
+        // $data['brand_status'] = $request->brand_status;
+        // DB::table('tbl_brand')->where('brand_id',$brand_id)->update($data);
 
-        DB::table('tbl_brand')->where('brand_id',$brand_id)->update($data);
+        // Cách 2: Model
+        $data = $request->all();
+        $brand = Brand::find($brand_id);
+        // $brand->Các trường bên trong model = $data['các name của các input']
+        $brand->brand_name = $data['brand_name'];
+        $brand->brand_desc = $data['brand_desc'];
+        $brand->brand_status = $data['brand_status'];
+        $brand->save();
+
         Session::put('message','Cập nhật thương hiệu sản phẩm thành công');
         return Redirect::to('/all-brand');
     }
@@ -93,7 +130,9 @@ class BrandController extends Controller
     //Xoá thương hiệu sản phẩm
     public function delete_brand($brand_id){
         $this->AuthLogin();
-        DB::table('tbl_brand')->where('brand_id',$brand_id)->delete();
+        // DB::table('tbl_brand')->where('brand_id',$brand_id)->delete();
+
+        Brand::find($brand_id)->delete();
         Session::put('message','Xoá thương hiệu sản phẩm thành công');
         return Redirect::to('/all-brand');
     }

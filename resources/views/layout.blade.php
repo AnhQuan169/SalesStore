@@ -470,6 +470,11 @@
 	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 	<script src="{{asset('public/client/js/sweetalert.js')}}"></script>
 	
+	{{-- Share Facebook --}}
+	{{-- <div id="fb-root"></div>
+	<script async defer crossorigin="anonymous" src="https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v13.0" nonce="AdZgI5zJ"></script>
+	 --}}
+	
 	<script type="text/javascript">
 		$(document).ready(function(){
 			$('.add-to-cart').click(function(){
@@ -509,5 +514,6 @@
 			});
 		});
 	</script>
+	
 </body>
 </html>
