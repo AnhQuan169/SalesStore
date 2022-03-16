@@ -3,9 +3,17 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <title>Home | E-Shopper</title>
+    {{-- Seo meta --}}
+	{{-- <meta name="description" content="{{$meta_desc}}"> --}}
+    <meta name="author" content="Nguyễn Anh Quân">
+	<meta name="robots" content="">
+	{{-- <meta name="keywords" content="{{$meta_keywords}}">
+	<link rel="canonical" href="{{$url_cannical}}"> --}}
+	<link rel="icon" type="image/x-icon" href="images/ico/favicon.ico">
+	{{-- Seo meta --}}
+
+    {{-- <title>{{$meta_title}}</title> --}}
+	<title>QK store</title>
     <link href="{{asset('public/client/css/bootstrap.min.css')}}" rel="stylesheet">
     <link href="{{asset('public/client/css/font-awesome.min.css')}}" rel="stylesheet">
     <link href="{{asset('public/client/css/prettyPhoto.css')}}" rel="stylesheet">

@@ -101,7 +101,7 @@ class BrandController extends Controller
 
     //---------------Client---------------------
     // Hiển thị sản phẩm theo thương hiệu sản phẩm được chọn
-    public function show_Brand_Home($brand_id){
+    public function show_Brand_Home(Request $request,$brand_id){
         $cate_pro = DB::table('tbl_category_product')->where('category_status','1')->orderBy('category_id','desc')->get();
         $brand_pro = DB::table('tbl_brand')->where('brand_status','1')->orderBy('brand_id','desc')->get();
 
@@ -110,6 +110,16 @@ class BrandController extends Controller
             ->where('tbl_product.brand_id',$brand_id)->get();
 
         $brand_name = DB::table('tbl_brand')->where('tbl_brand.brand_id',$brand_id)->limit(1)->get();
+
+        // foreach($brand_name as $key => $val){
+        //     // --Seo meta
+        //     $meta_desc = $val->brand_desc;
+        //     $meta_keywords = $val->brand_name;
+        //     $meta_title = $val->brand_name;
+        //     $url_cannical = $request->url();
+        //     // --Seo meta
+        // }
+        // return view('pages.brand.show_brand',compact('category','brand','brand_by_id','brand_name','meta_desc','meta_keywords','meta_title','url_cannical'));
 
         return view('pages.brand.show_brand')->with('category',$cate_pro)->with('brand',$brand_pro)
             ->with('brand_by_id',$brand_by_id)->with('brand_name',$brand_name);
