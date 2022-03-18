@@ -148,11 +148,11 @@ class CheckoutController extends Controller
         }
         Session::forget('cart');
         if($payment_data['payment_method']==1){
-            return Redirect::to('/')->with('message','Cảm ơn bạn đã đặt hàng, chúng tôi sẽ liên hệ với bạn sớm nhất có thể');
+            return Redirect::to('/send-mail')->with('message','Cảm ơn bạn đã đặt hàng, chúng tôi sẽ liên hệ với bạn sớm nhất có thể');
         }elseif($payment_data['payment_method']==2){
-            return Redirect::to('/')->with('message','Cảm ơn bạn đã đặt hàng, chúng tôi sẽ liên hệ với bạn sớm nhất có thể');
+            return Redirect::to('/send-mail')->with('message','Cảm ơn bạn đã đặt hàng, chúng tôi sẽ liên hệ với bạn sớm nhất có thể');
         }else{
-            return Redirect::to('/')->with('message','Cảm ơn bạn đã đặt hàng, chúng tôi sẽ liên hệ với bạn sớm nhất có thể');
+            return Redirect::to('/send-mail')->with('message','Cảm ơn bạn đã đặt hàng, chúng tôi sẽ liên hệ với bạn sớm nhất có thể');
         }
 
         // return Redirect('/')->with('message','Đặt hàng thành công');
