@@ -59,6 +59,10 @@ Route::post('/order-place', [CheckoutController::class, 'order_place']);
 
 // --------------------Send Mail------------------------
 Route::get('/send-mail', [HomeController::class, 'send_mail']);
+// ------------------Login google-------------------
+Route::get('/login-google', [AdminController::class, 'login_google']);
+Route::get('/google/callback', [AdminController::class, 'callback_google']);
+
 
 
 // =======================Admin=========================

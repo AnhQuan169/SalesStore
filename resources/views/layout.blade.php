@@ -469,7 +469,9 @@
     <script src="{{asset('public/client/js/main.js')}}"></script>
 	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 	<script src="{{asset('public/client/js/sweetalert.js')}}"></script>
-	
+
+	{{-- Xây dụng mã captcha --}}
+	<script src="https://www.google.com/recaptcha/api.js" async defer></script>
 	{{-- Share Facebook --}}
 	{{-- <div id="fb-root"></div>
 	<script async defer crossorigin="anonymous" src="https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v13.0" nonce="AdZgI5zJ"></script>
