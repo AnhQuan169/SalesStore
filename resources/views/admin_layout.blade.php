@@ -143,6 +143,15 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						<li><a href="{{URL::to('/all-coupon')}}">Danh sách mã giảm giá</a></li>
                     </ul>
                 </li>
+				<li class="sub-menu">
+                    <a href="javascript:;">
+                        <i class="fa fa-book"></i>
+                        <span>Quản lí phí vận chuyển</span>
+                    </a>
+                    <ul class="sub">
+						<li><a href="{{URL::to('/delivery')}}">Thêm phí vận chuyển</a></li>
+                    </ul>
+                </li>
                 
             </ul> 
 </aside>
@@ -173,7 +182,49 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <!--[if lte IE 8]><script language="javascript" type="text/javascript" src="js/flot-chart/excanvas.min.js"></script><![endif]-->
 <script src="{{asset('js/jquery.scrollTo.js')}}"></script>
 
+{{-- Tạo Ajax khi chọn tên thành phố trong thêm phí vận chuyển mới thì list các quận, huyện tương ứng với thành phố đó sẽ hiện ra --}}
+<script type="text/javascript">
+	$(document).ready(function(){
+		$('.add_delivery').click(function(){
+			var city = $('.city').val();
+			var province = $('.province').val();
+			var wards = $('.wards').val();
+			var fee_ship = $('.fee_ship').val();
+			var _token = $('input[name="_token"]').val();
 
+			$.ajax({
+				url: '{{url('/add-delivery')}}',
+				method: 'POST',
+				data:{city:city,province:province,wards:wards,fee_ship:fee_ship,_token:_token},
+				success:function(data){
+					alert('Thêm phí vận chuyển thành công')
+				}
+			});
+
+		});
+
+
+		$('.choose').on('change',function(){
+			var action = $(this).attr('id');
+			var dd_id = $(this).val();
+			var _token = $('input[name="_token"]').val();
+			var result = '';
+			if(action=='city'){
+				result = 'province';
+			}else{
+				result = 'wards';
+			}
+			$.ajax({
+				url: '{{url('/select-delivery')}}',
+				method: 'POST',
+				data:{action:action,dd_id:dd_id,_token:_token},
+				success:function(data){
+					$('#'+result).html(data);
+				}
+			});
+		});
+	})
+</script>
 {{-- Form Validation JQuery --}}
 <script src="{{asset('public/admin/jQuery-Form-Validator-master/form-validator/jquery.form-validator.min.js')}}"></script>
 <script>

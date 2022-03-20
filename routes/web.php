@@ -6,6 +6,7 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryProduct;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\CouponController;
+use App\Http\Controllers\DeliveryController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\OrderController;
@@ -139,3 +140,9 @@ Route::post('/save-coupon', [CouponController::class, 'save_coupon']);
 Route::get('/all-coupon', [CouponController::class, 'all_coupon']);
 Route::get('/delete-coupon/{coupon_id}', [CouponController::class, 'delete_coupon']);
 Route::post('/delete-coupon/{coupon_id}', [CouponController::class, 'delete_coupon']);
+
+// ---------------Quản lí phí vận chuyển----------------------------
+Route::get('/delivery', [DeliveryController::class, 'delivery']);
+Route::post('/select-delivery', [DeliveryController::class, 'select_delivery']);
+Route::post('/add-delivery', [DeliveryController::class, 'add_delivery']);
+

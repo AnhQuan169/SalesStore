@@ -76,13 +76,16 @@ class AdminController extends Controller
         $admin_password = MD5($data['admin_password']);
         
         $login = Login::where('admin_mail',$admin_mail)->where('admin_password',$admin_password)->first();
-        $login_count = $login->count();
-        if($login_count){
-            //Lấy name, id của người dùng từ biến $result khi đăng nhập thành công
-            Session::put('admin_name',$login->admin_name);
-            Session::put('admin_id',$login->admin_id);
-            // Trả về trang dashboard
-            return Redirect::to('/dashboard');
+        
+        if($login){
+            $login_count = $login->count();
+            if($login_count){
+                //Lấy name, id của người dùng từ biến $result khi đăng nhập thành công
+                Session::put('admin_name',$login->admin_name);
+                Session::put('admin_id',$login->admin_id);
+                // Trả về trang dashboard
+                return Redirect::to('/dashboard');
+            }
         }else{
             Session::put('message','Tài khoản hoặc mật khẩu không chính xác');
             return Redirect::to('/admin')->with('error','Đăng nhập không thành công');
