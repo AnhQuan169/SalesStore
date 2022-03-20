@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 // Thư viện cho phép xử lí thông tin dữ liệu khi thành công hoặc thất bại với lệnh
 use Illuminate\Support\Facades\Redirect;
+use App\Models\Coupon;
 use Cart;
 Session_start();
 
@@ -145,9 +146,57 @@ class CartController extends Controller
             // Xoá hết tất cả các Session
             // Session::destroy();
             Session::forget('cart');
+            Session::forget('coupon');
             return Redirect()->back()->with('message','Xoá sản phẩm thành công');
         }else{
             return Redirect()->back()->with('error','Xoá sản phẩm thất bại');
+        }
+    }
+
+    // =====================client============================
+    // --------------------Mã khuyến mãi------------------
+    // Thêm mã khuyến mãi vào giỏ hàng
+    public function check_coupon(Request $request){
+        $data = $request->all();
+        $coupon = Coupon::where('coupon_code',$data['coupon'])->first();
+        if($coupon){
+            $count_coupon = $coupon->count();
+            if($count_coupon>0){
+                $coupon_session = Session::get('coupon');
+                if($coupon_session){
+                    $is_avaiable = 0;
+                    if($is_avaiable==0){
+                        $cou[] = array(
+                            // Tên đặt => trường trong DB
+                            'coupon_code' => $coupon->coupon_code,
+                            'coupon_condition' => $coupon->coupon_condition,
+                            'coupon_number' => $coupon->coupon_number,
+                        );
+                        Session::put('coupon',$cou);
+                    }
+                }else{
+                    $cou[] = array(
+                        // Tên đặt => trường trong DB
+                        'coupon_code' => $coupon->coupon_code,
+                        'coupon_condition' => $coupon->coupon_condition,
+                        'coupon_number' => $coupon->coupon_number,
+                    );
+                    Session::put('coupon',$cou);
+                }
+                Session::save();
+                return redirect()->back()->with('message','Thêm mã khuyến mãi thành công');
+            }
+        }else{
+            return redirect()->back()->with('error','Mã khuyến mãi không đúng');
+        }
+    }
+
+    // Xoá mã khuyến mãi
+    public function unset_coupon(){
+        $coupon = Session::get('coupon');
+        if($coupon){
+            Session::forget('coupon');
+            return Redirect()->back()->with('message','Xoá mã khuyến mãi thành công');
         }
     }
 }

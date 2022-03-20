@@ -5,6 +5,7 @@ use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryProduct;
 use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\CouponController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\OrderController;
@@ -56,6 +57,11 @@ Route::post('/login-customer', [CheckoutController::class, 'login_customer']);
 Route::get('/payment', [CheckoutController::class, 'payment']);
 // Chọn hình thức thanh toán đơn hàng
 Route::post('/order-place', [CheckoutController::class, 'order_place']);
+// ------Chọn mã giảm giá-----------------------
+Route::post('/check-coupon', [CartController::class, 'check_coupon']);
+// Xoá mã khuyến mãi
+Route::get('/unset-coupon', [CartController::class, 'unset_coupon']);
+
 
 // --------------------Send Mail------------------------
 Route::get('/send-mail', [HomeController::class, 'send_mail']);
@@ -125,3 +131,11 @@ Route::get('/delete-product/{product_id}', [ProductController::class, 'delete_pr
 Route::get('/manage-order', [OrderController::class, 'manage_order']);
 //Chi tiết đơn hàng được chọn
 Route::get('/view-order/{order_id}', [OrderController::class, 'view_order']);
+
+
+// -----------------Quản lí mã khuyến mãi(Coupon)---------------------
+Route::get('/add-coupon', [CouponController::class, 'add_coupon']);
+Route::post('/save-coupon', [CouponController::class, 'save_coupon']);
+Route::get('/all-coupon', [CouponController::class, 'all_coupon']);
+Route::get('/delete-coupon/{coupon_id}', [CouponController::class, 'delete_coupon']);
+Route::post('/delete-coupon/{coupon_id}', [CouponController::class, 'delete_coupon']);
