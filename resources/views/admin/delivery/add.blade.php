@@ -50,6 +50,10 @@
                         </form>
                     </div>
 
+                    <div id="load_delivery" style="margin-top: 20px;">
+                        
+                    </div>
+
                 </div>
             </section>
 

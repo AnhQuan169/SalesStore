@@ -145,4 +145,8 @@ Route::post('/delete-coupon/{coupon_id}', [CouponController::class, 'delete_coup
 Route::get('/delivery', [DeliveryController::class, 'delivery']);
 Route::post('/select-delivery', [DeliveryController::class, 'select_delivery']);
 Route::post('/add-delivery', [DeliveryController::class, 'add_delivery']);
+Route::post('/all-delivery', [DeliveryController::class, 'all_delivery']);
+Route::post('/update-delivery', [DeliveryController::class, 'update_delivery']);
+
+
 

@@ -185,6 +185,39 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 {{-- Tạo Ajax khi chọn tên thành phố trong thêm phí vận chuyển mới thì list các quận, huyện tương ứng với thành phố đó sẽ hiện ra --}}
 <script type="text/javascript">
 	$(document).ready(function(){
+
+		fetch_delivery();
+		// Lấy dữ liệu ra bằng Ajax
+		function fetch_delivery(){
+			var _token = $('input[name="_token"]').val();
+			$.ajax({
+				url: '{{url('/all-delivery')}}',
+				method: 'POST',
+				data:{_token:_token},
+				success:function(data){
+					$('#load_delivery').html(data);
+					// function() {
+					// 	window.location.href = "{{url('/add-delivery')}}";
+					// });
+				}
+			});
+		}
+
+		$(document).on('blur','.fee_feeship_edit', function(){
+			var feeship_id = $(this).data('feeship_id');
+			var fee_value = $(this).text();
+			var _token = $('input[name="_token"]').val();
+			$.ajax({
+				url: '{{url('/update-delivery')}}',
+				method: 'POST',
+				data:{feeship_id:feeship_id,fee_value:fee_value,_token:_token},
+				success:function(data){
+					fetch_delivery();
+				}
+			});
+		});
+
+		// Thêm phí vận chuyển mới với Ajax
 		$('.add_delivery').click(function(){
 			var city = $('.city').val();
 			var province = $('.province').val();
@@ -197,13 +230,13 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				method: 'POST',
 				data:{city:city,province:province,wards:wards,fee_ship:fee_ship,_token:_token},
 				success:function(data){
-					alert('Thêm phí vận chuyển thành công')
+					fetch_delivery();
 				}
 			});
 
 		});
 
-
+		// Chọn tỉnh, huyện, xã với Ajax
 		$('.choose').on('change',function(){
 			var action = $(this).attr('id');
 			var dd_id = $(this).val();

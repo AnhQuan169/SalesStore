@@ -54,4 +54,47 @@ class DeliveryController extends Controller
         Session::put('message','Thêm phí vận chuyển thành công');
         return Redirect::to('/delivery');
     }
+
+    // Lấy dữ liệu ra bằng Ajax
+    public function all_delivery(){
+        $feeship = Feeship::orderBy('fee_id','desc')->get();
+        $output = '';
+        $output.='
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thread>
+                        <tr>
+                            <th>Tên tỉnh, thành phố</th>
+                            <th>Tên quận, huyện</th>
+                            <th>Tên xã, phường, thị trấn</th>
+                            <th>Phí vận chuyển (VND)</th>
+                        </tr> 
+                    </thread>
+                    <tboby>';
+                        foreach($feeship as $key => $val){
+                            $output.='
+                                <tr>
+                                    <td>'.$val->city->city_name.'</td>
+                                    <td>'.$val->province->qh_name.'</td>
+                                    <td>'.$val->wards->xa_name.'</td>
+                                    <td contenteditable data-feeship_id="'.$val->fee_id.'" class="fee_feeship_edit">'.number_format($val->fee_freeship,0,',','.').'</td>
+                                </tr>';
+                        }
+                        
+        $output.='  </tboby>
+                </table>
+            </div>';
+        echo $output;
+    }
+
+    // Cập nhật phí vận chuyển
+    public function update_delivery(Request $request){
+        $data = $request->all();
+        $fee_ship = Feeship::find($data['feeship_id']);
+        $fee_value = rtrim($data['fee_value'],'.');
+        $fee_ship->fee_freeship = $fee_value;
+        $fee_ship->save();
+        Session::put('message','Thêm phí vận chuyển thành công');
+        return Redirect::to('/delivery');
+    }
 }
