@@ -58,10 +58,16 @@ Route::post('/login-customer', [CheckoutController::class, 'login_customer']);
 Route::get('/payment', [CheckoutController::class, 'payment']);
 // Chọn hình thức thanh toán đơn hàng
 Route::post('/order-place', [CheckoutController::class, 'order_place']);
-// ------Chọn mã giảm giá-----------------------
+// ---Chọn mã giảm giá-----------------------
 Route::post('/check-coupon', [CartController::class, 'check_coupon']);
 // Xoá mã khuyến mãi
 Route::get('/unset-coupon', [CartController::class, 'unset_coupon']);
+//--- Chọn địa điểm tính phí vận chuyển
+Route::post('/select-delivery-home', [CheckoutController::class, 'select_delivery_home']);
+// Thêm địa điểm tính phí vận chuyển
+Route::post('/calculator-fee', [CheckoutController::class, 'calculator_fee']);
+// Xoá phí vận chuyển đã thêm
+Route::get('/delete-fee', [CheckoutController::class, 'delete_fee']);
 
 
 // --------------------Send Mail------------------------
@@ -69,6 +75,8 @@ Route::get('/send-mail', [HomeController::class, 'send_mail']);
 // ------------------Login google-------------------
 Route::get('/login-google', [AdminController::class, 'login_google']);
 Route::get('/google/callback', [AdminController::class, 'callback_google']);
+
+
 
 
 

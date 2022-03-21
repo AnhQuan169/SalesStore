@@ -16,7 +16,7 @@
                             }
 
                         ?>
-                        <form role="form" action="{{URL::to('/save-brand')}}" method="POST">
+                        <form>
                             {{-- Tự động tạo 1 token khi hoàn thành thêm 1 danh mục sản phẩms --}}
                             @csrf
                             

@@ -477,6 +477,7 @@
 	<script async defer crossorigin="anonymous" src="https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v13.0" nonce="AdZgI5zJ"></script>
 	 --}}
 	
+	 {{-- Thêm sản phẩm vào giỏ hàng với Ajax --}}
 	<script type="text/javascript">
 		$(document).ready(function(){
 			$('.add-to-cart').click(function(){
@@ -513,6 +514,55 @@
 						});
 					}
 				});
+			});
+		});
+	</script>
+
+	<script type="text/javascript">
+		$(document).ready(function(){
+			// Chọn tỉnh, huyện, xã với Ajax
+			$('.choose').on('change',function(){
+				var action = $(this).attr('id');
+				var dd_id = $(this).val();
+				var _token = $('input[name="_token"]').val();
+				var result = '';
+				if(action=='city'){
+					result = 'province';
+				}else{
+					result = 'wards';
+				}
+				$.ajax({
+					url: '{{url('/select-delivery-home')}}',
+					method: 'POST',
+					data:{action:action,dd_id:dd_id,_token:_token},
+					success:function(data){
+						$('#'+result).html(data);
+					}
+				});
+			});
+		})
+	</script>
+
+	<script>
+		$(document).ready(function(){
+			$('.calculator_delivery').click(function(){
+				var city_id = $('.city').val();
+				var qh_id = $('.province').val();
+				var xa_id = $('.wards').val();
+				var _token = $('input[name="_token"]').val();
+				if(city_id=='' || qh_id =="" || xa_id==""){
+					alert("Hãy chọn địa điểm để tính phí vận chuyển");
+				}else{
+					$.ajax({
+						url: '{{url('/calculator-fee')}}',
+						method: 'POST',
+						data:{city_id:city_id,qh_id:qh_id,xa_id:xa_id,_token:_token},
+						success:function(data){
+							location.reload();
+						}
+					});
+				}
+				
 			});
 		});
 	</script>

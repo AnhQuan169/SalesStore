@@ -147,6 +147,7 @@ class CartController extends Controller
             // Session::destroy();
             Session::forget('cart');
             Session::forget('coupon');
+            Session::forget('fee');
             return Redirect()->back()->with('message','Xoá sản phẩm thành công');
         }else{
             return Redirect()->back()->with('error','Xoá sản phẩm thất bại');

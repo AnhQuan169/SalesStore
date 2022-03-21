@@ -8,6 +8,11 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 // Thư viện cho phép xử lí thông tin dữ liệu khi thành công hoặc thất bại với lệnh
 use Illuminate\Support\Facades\Redirect;
+use App\Models\City;
+use App\Models\Province;
+use App\Models\Wards;
+use App\Models\Feeship;
+session_start();
 
 class CheckoutController extends Controller
 {
@@ -47,8 +52,10 @@ class CheckoutController extends Controller
         $category = DB::table('tbl_category_product')->where('category_status','1')->orderBy('category_id','desc')->get();
         $brand = DB::table('tbl_brand')->where('brand_status','1')->orderBy('brand_id','desc')->get();
 
+        $city = City::orderBy('city_id','desc')->get();
+
         if(Session::get('cart')){
-            return view('pages.checkout.show_checkout')->with('category',$category)->with('brand',$brand);
+            return view('pages.checkout.show_checkout', compact('category','brand','city'));
         }else{
             // Session::put('message','Hãy chọn sản phẩm trước khi thanh toán');
             // return view('pages.cart.show_cart')->with('category',$category)->with('brand',$brand)->with('message','Hãy chọn sản phẩm trước khi thanh toán');
@@ -156,5 +163,45 @@ class CheckoutController extends Controller
         }
 
         // return Redirect('/')->with('message','Đặt hàng thành công');
+    }
+
+    // Hiển thị địa điểm để chọn tính phí vận chuyển
+    public function select_delivery_home(Request $request){
+        $data = $request->all();
+        if($data['action']){
+            $output = '';
+            if($data['action']=='city'){
+                $select_province = Province::where('city_id',$data['dd_id'])->orderby('qh_id','asc')->get();
+                $output.='<option>---Chọn quận, huyện---</option>';
+                foreach($select_province as $key => $province){
+                    $output.= '<option value="'.$province->qh_id.'">'.$province->qh_name.'</option>';
+                }
+            }else{
+                $select_wards = Wards::where('qh_id',$data['dd_id'])->orderby('xa_id','asc')->get();
+                $output.='<option>---Chọn xã, phường, thị trấn---</option>';
+                foreach($select_wards as $key => $ward){
+                    $output.= '<option value="'.$ward->xa_id.'">'.$ward->xa_name.'</option>';
+                }
+            }
+        }
+        echo $output;
+    }
+
+    // Tính phí vận chuyển sau khi chọn địa điểm 
+    public function calculator_fee(Request $request){
+        $data = $request->all();
+        if($data['city_id']){
+            $feeship = Feeship::where('fee_city_id',$data['city_id'])->where('fee_qh_id',$data['qh_id'])->where('fee_xa_id',$data['xa_id'])->get(); 
+            foreach($feeship as $key => $val){
+                Session::put('fee',$val->fee_freeship);
+                Session::save();
+            }
+        }
+    }
+
+    // Xoá phí vận chuyển
+    public function delete_fee(){
+        Session::forget('fee');
+        return Redirect()->back();
     }
 }
