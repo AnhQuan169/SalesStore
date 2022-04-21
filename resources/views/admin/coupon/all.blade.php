@@ -68,7 +68,7 @@
                     @endif
                 </td>
                 <td>
-                    <a onclick="return confirm('Bạn có chắc chắn muốn xoá thương hiệu sản phẩm này?')" href="{{URL::to('/delete-coupon/'.$val->coupon_id)}}" class="active styling-edit" ui-toggle-class="">
+                    <a onclick="return confirm('Bạn có chắc chắn muốn xoá thương hiệu sản phẩm này?')" href="{{URL::to('/delete-coupon/'.$val->coupon_id)}}" class="active styling-edit coupon_delete" ui-toggle-class="">
                         <i class="fa fa-times text-danger text"></i>
                     </a>
                     

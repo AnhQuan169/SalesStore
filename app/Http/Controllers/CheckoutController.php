@@ -12,6 +12,10 @@ use App\Models\City;
 use App\Models\Province;
 use App\Models\Wards;
 use App\Models\Feeship;
+
+use App\Models\Order;
+use App\Models\Order_details;
+use App\Models\shipping;
 session_start();
 
 class CheckoutController extends Controller
@@ -192,10 +196,20 @@ class CheckoutController extends Controller
         $data = $request->all();
         if($data['city_id']){
             $feeship = Feeship::where('fee_city_id',$data['city_id'])->where('fee_qh_id',$data['qh_id'])->where('fee_xa_id',$data['xa_id'])->get(); 
-            foreach($feeship as $key => $val){
-                Session::put('fee',$val->fee_freeship);
-                Session::save();
+            if($feeship){
+                $count_fee = $feeship->count();
+                if($count_fee>0){
+                    foreach($feeship as $key => $val){
+                        Session::put('fee',$val->fee_freeship);
+                        Session::save();
+                    }
+                }
+                else{
+                    Session::put('fee',10000);
+                    Session::save();
+                }
             }
+            
         }
     }
 
@@ -203,5 +217,50 @@ class CheckoutController extends Controller
     public function delete_fee(){
         Session::forget('fee');
         return Redirect()->back();
+    }
+
+    // Xác nhận đặt hàng, thêm thông tin thanh toán
+    public function confirm_order(Request $request){
+        $data = $request->all();
+        // Thêm vào tbl_shipping
+        $shipping = new shipping();
+        $shipping->shipping_name = $data['shipping_name'];
+        $shipping->shipping_address = $data['shipping_address'];
+        $shipping->shipping_phone = $data['shipping_phone'];
+        $shipping->shipping_email = $data['shipping_email'];
+        $shipping->shipping_note = $data['shipping_note'];
+        $shipping->shipping_method = $data['shipping_method'];
+        $shipping->save();
+        $shipping_id = $shipping->shipping_id;
+        
+        // Thêm vào tbl_order
+        $checkout_code = substr(md5(microtime()),rand(0,26),5);
+        $order = new Order();
+        $order->customer_id = Session::get('customer_id');
+        $order->shipping_id = $shipping_id;
+        $order->order_total = Session::get('total_order');
+        $order->order_status = 1;
+        $order->order_code = $checkout_code;
+        date_default_timezone_set('Asia/Ho_Chi_Minh');
+        // $order->created_at = now();
+        $order->save();
+
+        // Thêm vào table Order_details
+        if(Session::get('cart')){
+            foreach(Session::get('cart') as $key => $cart){
+                $order_details = new Order_details();
+                $order_details->order_code = $checkout_code; 
+                $order_details->product_id = $cart['product_id'];
+                $order_details->order_detail_name = $cart['product_name'];
+                $order_details->order_detail_price = $cart['product_price'];
+                $order_details->order_detail_quantity = $cart['product_qty'];
+                $order_details->order_coupon = $data['order_coupon'];
+                $order_details->order_fee = $data['order_fee'];
+                $order_details->save();
+            }
+        }
+        Session::forget('coupon');
+        Session::forget('fee');
+        Session::forget('cart');
     }
 }

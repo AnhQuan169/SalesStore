@@ -20,7 +20,7 @@
                             <a href="{{URL::to('/detail-product/'.$pro->id)}}">
                                 <img src="{{URL::to('public/uploads/products/'.$pro->image)}}" alt="" />
                             
-                                <h2>{{number_format($pro->price,0,',','.').'$'}}</h2>
+                                <h2>{{number_format($pro->price,0,',','.').' VND'}}</h2>
                                 <p>{{$pro->name}}</p>
                             {{-- <a href="#" class="btn btn-default add-to-cart">
                                 <i class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng --}}

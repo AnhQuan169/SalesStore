@@ -16,51 +16,78 @@
         <div class="shopper-informations">
             <div class="row">
                 
-                <div class="col-sm-10 clearfix">
+                <div class="col-sm-8 clearfix">
                     <div class="bill-to">
                         <p>Điền thông tin gửi hàng</p>
                         <div class="form-one">
-                            <form action="{{URL::to('/save-checkout-customer')}}" method="POST">
-                                {{ csrf_field() }}
-                                <input type="email" name="email" placeholder="Email *">
-                                <input type="text" name="name" placeholder="Họ và tên *">
-                                <input type="text" name="address" placeholder="Địa chỉ *">
-                                <input type="number" name="phone" placeholder="Số điện thoại *">
-                                <textarea name="note"  placeholder="Ghi chú đơn hàng của bạn" rows="5" ></textarea>		
-                                <input name="send_order" type="submit" class="btn btn-primary btn-sm" value="Xác nhận đơn hàng" />
-                            </form>
-                            <form>
-                                {{-- Tự động tạo 1 token khi hoàn thành thêm 1 danh mục sản phẩms --}}
+                            <form method="POST">
                                 @csrf
-                                
-                                <div class="form-group">
-                                    <label for="exampleInputPassword1">Chọn thành phố</label>
-                                    <select name="city" id="city" class="form-control input-lg m-bot15 choose city">
-                                        <option>---Chọn tỉnh, thành phố---</option>
-                                        @foreach ($city as $key => $val )
-                                            <option value="{{$val['city_id']}}">{{$val['city_name']}}</option>
-                                        @endforeach
-                                    </select>
+                                <input type="email" name="email" class="shipping_email" placeholder="Email *">
+                                <input type="text" name="name" class="shipping_name" placeholder="Họ và tên *">
+                                <input type="text" name="address" class="shipping_address" placeholder="Địa chỉ *">
+                                <input type="number" name="phone" class="shipping_phone" placeholder="Số điện thoại *">
+                                <textarea name="note" class="shipping_note"  placeholder="Ghi chú đơn hàng của bạn" rows="5" ></textarea>		
+                                @if(Session::get('coupon'))
+                                    @foreach (Session::get('coupon') as $key => $cou)
+                                        <input type="hidden" name="order_coupon" class="order_coupon" value="{{$cou['coupon_code']}}">
+                                    @endforeach
+                                @else
+                                    <input type="hidden" name="order_coupon" class="order_coupon" value="0">
+                                @endif
+                                @if(Session::get('fee'))
+                                    <input type="hidden" name="order_fee" class="order_fee" value="{{Session::get('fee')}}">
+                                @else
+                                    <input type="hidden" name="order_fee" class="order_fee" value="10000">
+                                @endif
+                                <input type="hidden" name="order_fee" class="order_fee">
+                                <div class="">
+                                    <div class="form-group">
+                                        <label for="exampleInputPassword1">Chọn phương thức thanh toán</label>
+                                        <select name="payment_select" class="form-control input-lg m-bot15 payment_select">
+                                            <option>---Chọn phương thức thanh toán---</option>
+                                            <option value="1">Trả bằng thẻ ATM</option>
+                                            <option value="2">Trả bằng tiền mặt</option>
+                                            <option value="3">Paypal</option>
+                                        </select>
+                                    </div>
                                 </div>
-                                <div class="form-group">
-                                    <label for="exampleInputPassword1">Chọn quận, huyện</label>
-                                    <select name="province" id="province" class="form-control input-lg m-bot15 choose province">
-                                        <option value="">---Chọn quận, huyện---</option>
-    
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label for="exampleInputPassword1">Chọn xã, phường</label>
-                                    <select name="wards" id="wards" class="form-control input-lg m-bot15 wards">
-                                        <option value="">---Chọn xã, phường, thị trấn---</option>
-                                    </select>
-                                </div>
-                                
-                                <input name="calculator_order" type="button" class="btn btn-primary btn-sm calculator_delivery" value="Tính phí vận chuyển" />
+                                <input name="send_order" type="button" class="btn btn-primary btn-sm send_order" value="Xác nhận đơn hàng" />
                             </form>
-
                         </div>
-                        
+                    </div>
+                </div>
+                <div class="col-sm-4 clearfix">
+                    <div class="bill-to">
+                        <p>Chọn địa chỉ vận chuyển</p>
+                        <form>
+                            {{-- Tự động tạo 1 token khi hoàn thành thêm 1 danh mục sản phẩms --}}
+                            @csrf
+                            
+                            <div class="form-group">
+                                <label for="exampleInputPassword1">Chọn thành phố</label>
+                                <select name="city" id="city" class="form-control input-lg m-bot15 choose city">
+                                    <option>---Chọn tỉnh, thành phố---</option>
+                                    @foreach ($city as $key => $val )
+                                        <option value="{{$val['city_id']}}">{{$val['city_name']}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputPassword1">Chọn quận, huyện</label>
+                                <select name="province" id="province" class="form-control input-lg m-bot15 choose province">
+                                    <option value="">---Chọn quận, huyện---</option>
+
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputPassword1">Chọn xã, phường</label>
+                                <select name="wards" id="wards" class="form-control input-lg m-bot15 wards">
+                                    <option value="">---Chọn xã, phường, thị trấn---</option>
+                                </select>
+                            </div>
+                            
+                            <input name="calculator_order" type="button" class="btn btn-primary btn-sm calculator_delivery" value="Tính phí vận chuyển" />
+                        </form>
                     </div>
                 </div>
                 <div class="col-sm-12 clearfix">

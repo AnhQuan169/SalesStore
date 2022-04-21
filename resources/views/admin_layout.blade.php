@@ -203,6 +203,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 			});
 		}
 
+		// Chỉnh sửa phí vận chuyển
 		$(document).on('blur','.fee_feeship_edit', function(){
 			var feeship_id = $(this).data('feeship_id');
 			var fee_value = $(this).text();
@@ -379,5 +380,14 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 		});
 	</script>
 	<!-- //calendar -->
+
+	{{-- Xoá mã khuyến mãi --}}
+	{{-- <script type="text/javascript">
+		$(document).ready(function(){
+			$('.coupon_delete').click(function(){
+				
+			});
+		});
+	</script> --}}
 </body>
 </html>

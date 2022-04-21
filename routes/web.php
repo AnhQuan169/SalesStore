@@ -68,6 +68,8 @@ Route::post('/select-delivery-home', [CheckoutController::class, 'select_deliver
 Route::post('/calculator-fee', [CheckoutController::class, 'calculator_fee']);
 // Xoá phí vận chuyển đã thêm
 Route::get('/delete-fee', [CheckoutController::class, 'delete_fee']);
+// ----Xác nhận đặt hàng thành công với Ajax, thêm các thông tin thanh toán 
+Route::post('/confirm-order', [CheckoutController::class, 'confirm_order']);
 
 
 // --------------------Send Mail------------------------

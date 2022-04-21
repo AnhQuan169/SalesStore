@@ -74,6 +74,13 @@
                                         <a class="btn btn-default check_out" href="{{URL::to('/unset-coupon')}}">Xoá mã khuyến mãi</a>
                                     @endif
                                 </td>
+                                {{-- <td>
+                                    @if(Session::get('customer_id'))
+                                        <a class="btn btn-default check_out" href="{{URL::to('/checkout')}}">Đặt hàng</a>
+                                    @else
+                                        <a class="btn btn-default check_out" href="{{URL::to('/login-checkout')}}">Đặt hàng</a>
+                                    @endif
+                                </td> --}}
                             </tr>
                         @else
                             <tr>

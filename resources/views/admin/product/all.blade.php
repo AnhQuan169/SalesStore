@@ -61,7 +61,7 @@
               <td><img src="{{asset('public/uploads/products/'.$pro->image)}}" width="150px" /></td>
               <td>{{$pro->category_name}}</td>
               <td>{{$pro->brand_name}}</td>
-              <td>{{$pro->price}}</td>
+              <td>{{number_format($pro->price,0,',','.').' VND'}}</td>
               <td><span class="text-ellipsis">
                 <?php
                   if($pro->status===0){
