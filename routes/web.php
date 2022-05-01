@@ -148,7 +148,7 @@ Route::get('/view-order/{order_id}', [OrderController::class, 'view_order']);
 
 
 // -----------------Quản lí mã khuyến mãi(Coupon)---------------------
-Route::get('/add-coupon', [CouponController::class, 'add_coupon']);
+Route::get('/add-coupon', [CouponController::class, 'add_coupon'])->middleware('auth.roles');
 Route::post('/save-coupon', [CouponController::class, 'save_coupon']);
 Route::get('/all-coupon', [CouponController::class, 'all_coupon']);
 Route::get('/delete-coupon/{coupon_id}', [CouponController::class, 'delete_coupon']);
@@ -162,10 +162,11 @@ Route::post('/all-delivery', [DeliveryController::class, 'all_delivery']);
 Route::post('/update-delivery', [DeliveryController::class, 'update_delivery']);
 
 // ---------------Quản lý User---------------------------------------
-Route::get('/users', [UserController::class, 'index']);
-// Thêm quyền cho user
-Route::post('/assign-roles', [UserController::class, 'assign_roles']);
-
+Route::group(['middleware' => 'auth.roles','auth.roles'=>['admin']], function(){
+    Route::get('/users', [UserController::class, 'index']);
+    // Thêm quyền cho user
+    Route::post('/assign-roles', [UserController::class, 'assign_roles']);
+});
 
 
 
