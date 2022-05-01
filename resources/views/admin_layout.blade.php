@@ -39,7 +39,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <!--logo start-->
 <div class="brand">
     <a href="{{URL::to('/dashboard')}}" class="logo">
-        Admin
+        {{-- {{Auth::user()->admin_name}} --}}
+		Admin
     </a>
     <div class="sidebar-toggle-box">
         <div class="fa fa-bars"></div>
@@ -59,7 +60,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 <img alt="" src="{{asset('public/admin/images/2.png')}}">
                 <span class="username">
 					<?php 
-						$name = Session::get('admin_name');
+						$name = Auth::user()->admin_name;
 						if($name){
 							echo $name;
 						}
@@ -71,7 +72,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             <ul class="dropdown-menu extended logout">
                 <li><a href="#"><i class=" fa fa-suitcase"></i>Thông tin cá nhân</a></li>
                 <li><a href="#"><i class="fa fa-cog"></i> Cài đặt</a></li>
-                <li><a href="{{URL::to('/logout')}}"><i class="fa fa-key"></i> Đăng xuất</a></li>
+                <li><a href="{{URL::to('/logout-auth')}}"><i class="fa fa-key"></i> Đăng xuất</a></li>
             </ul>
         </li>
         <!-- user login dropdown end -->
@@ -150,6 +151,15 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     </a>
                     <ul class="sub">
 						<li><a href="{{URL::to('/delivery')}}">Thêm phí vận chuyển</a></li>
+                    </ul>
+                </li>
+				<li class="sub-menu">
+                    <a href="javascript:;">
+                        <i class="fa fa-book"></i>
+                        <span>Quản lí người dùng</span>
+                    </a>
+                    <ul class="sub">
+						<li><a href="{{URL::to('/users')}}">Danh sách người dùng</a></li>
                     </ul>
                 </li>
                 

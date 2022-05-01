@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Brand;
+use App\Models\Products;
 // Thư viện cho phép sử dụng Session
 use Illuminate\Support\Facades\Session;
 // Thư viện cho phép xử lí thông tin dữ liệu khi thành công hoặc thất bại với lệnh
@@ -131,10 +132,23 @@ class BrandController extends Controller
     public function delete_brand($brand_id){
         $this->AuthLogin();
         // DB::table('tbl_brand')->where('brand_id',$brand_id)->delete();
-
-        Brand::find($brand_id)->delete();
-        Session::put('message','Xoá thương hiệu sản phẩm thành công');
-        return Redirect::to('/all-brand');
+        // $br_pro = DB::table('tbl_brand')->where('brand_id',$brand_id)->get();
+        // $pro_pro = DB::table('tbl_product')
+        //     ->join('tbl_brand','tbl_product.brand_id','=','tbl_brand.brand_id')
+        //     ->where('tbl_product.brand_id',$brand_id)->get();
+        $br_pro = Brand::where('brand_id',$brand_id)->count();
+        $pro_pro = Products::where('brand_id',$brand_id)->count();
+        if($br_pro > 0 && $pro_pro> 0){
+            Session::put('message','Danh sách sản phẩm chứa sản phẩm có thương hiệu này, không thể xoá');
+            return Redirect::to('/all-brand');
+        }
+        else{
+            Brand::find($brand_id)->delete();
+            Session::put('message','Xoá thương hiệu sản phẩm thành công');
+            return Redirect::to('/all-brand');
+        }
+        // if(Brand::find($brand_id)==Products::find($brand_id))
+        
     }
 
 

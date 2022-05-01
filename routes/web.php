@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AuthControlller;
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryProduct;
@@ -11,6 +12,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,6 +28,7 @@ use App\Http\Controllers\ProductController;
 //=======================Client===========================
 Route::get('/', [HomeController::class, 'index']);
 Route::get('/trang-chu', [HomeController::class, 'index']);
+Route::get('/404', [HomeController::class, 'error_page']);
 // Tìm kiếm sản phẩm với từ khoá
 Route::post('/search-product', [HomeController::class, 'search_product']);
 // Danh mục sản phẩm trang chủ
@@ -158,5 +161,20 @@ Route::post('/add-delivery', [DeliveryController::class, 'add_delivery']);
 Route::post('/all-delivery', [DeliveryController::class, 'all_delivery']);
 Route::post('/update-delivery', [DeliveryController::class, 'update_delivery']);
 
+// ---------------Quản lý User---------------------------------------
+Route::get('/users', [UserController::class, 'index']);
+// Thêm quyền cho user
+Route::get('/assign-roles', [UserController::class, 'assign_roles']);
 
 
+
+
+// ========Authentication Roles=====================
+//  Đăng kí
+Route::get('/register-auth', [AuthControlller::class, 'register_auth']);
+Route::post('/register', [AuthControlller::class, 'register']);
+// Đăng nhập
+Route::get('/login-auth', [AuthControlller::class, 'login_auth']);
+Route::post('/login', [AuthControlller::class, 'login']);
+// Đăng xuất
+Route::get('/logout-auth', [AuthControlller::class, 'logout_auth']);

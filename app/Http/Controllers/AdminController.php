@@ -15,6 +15,7 @@ use Laravel\Socialite\Facades\Socialite;
 use App\Rules\Captcha;
 use Validator;
 use Yoeunes\Toastr;
+use Illuminate\Support\Facades\Auth;
 Session_start();
 
 class AdminController extends Controller
@@ -22,7 +23,7 @@ class AdminController extends Controller
 
     // Bảo mật Login
     public function AuthLogin(){
-        $admin_id = Session::get('admin_id');
+        $admin_id = Auth::id();
         if($admin_id){
             return Redirect::to('dashboard');
         }else{

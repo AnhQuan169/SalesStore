@@ -58,4 +58,8 @@ class HomeController extends Controller
         });
         return Redirect::to('/')->with('message','Cảm ơn bạn đã đặt hàng, hãy kiểm tra email để xác thực đặt hàng thành công');
     }
+
+    public function error_page(){
+        return view('error.404');
+    }
 }
