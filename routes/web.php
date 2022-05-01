@@ -164,7 +164,7 @@ Route::post('/update-delivery', [DeliveryController::class, 'update_delivery']);
 // ---------------Quản lý User---------------------------------------
 Route::get('/users', [UserController::class, 'index']);
 // Thêm quyền cho user
-Route::get('/assign-roles', [UserController::class, 'assign_roles']);
+Route::post('/assign-roles', [UserController::class, 'assign_roles']);
 
 
 
