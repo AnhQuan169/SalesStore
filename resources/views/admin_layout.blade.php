@@ -153,6 +153,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						<li><a href="{{URL::to('/delivery')}}">Thêm phí vận chuyển</a></li>
                     </ul>
                 </li>
+
+				@hasrole(['admin','author'])
 				<li class="sub-menu">
                     <a href="javascript:;">
                         <i class="fa fa-book"></i>
@@ -162,6 +164,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						<li><a href="{{URL::to('/users')}}">Danh sách người dùng</a></li>
                     </ul>
                 </li>
+				@endhasrole
                 
             </ul> 
 </aside>

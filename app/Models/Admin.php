@@ -29,8 +29,8 @@ class Admin extends Authenticatable
         return $this->belongsToMany('App\Models\Roles');
     }
 
-    public function hasAbyRoles($roles){
-        return null !== $this->roles()->where('name',$roles)->first();
+    public function hasAnyRoles($roles){
+        return null !== $this->roles()->whereIn('name',$roles)->first();
     }
 
     public function hasRole($role){
